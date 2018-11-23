@@ -1,25 +1,25 @@
 {
-  "name": "React App by Cloudhuset",
+  "name": "TeravozPhone",
   "author": {
-    "name": "Jens Herlevsen",
-    "email": "jh@cloudhuset.dk",
-    "url": "https://cloudhuset.dk"
+    "name": "Enrico Alvarenga",
+    "email": "tech@teravoz.com.br",
+    "url": "https://teravoz.com.br"
   },
   "defaultLocale": "en",
   "private": true,
   "location": {
     "support": {
-      "ticket_sidebar": "assets/index.html"
+      "top_bar": "assets/index.html"
     }
   },
   "version": "1.0",
   "frameworkVersion": "2.0",
   "parameters": [
     {
-      "name": "token",
-      "type": "text",
+      "name": "api_key",
+      "type": "password",
+      "required": true,
       "secure": true
     }
-  ],
-  "domainWhitelist": ["example.com"]
+  ]
 }

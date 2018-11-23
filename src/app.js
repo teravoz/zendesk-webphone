@@ -9,9 +9,7 @@ import Main from './containers/Main'
 
 const store = createStore(reducer,
     compose(
-        applyMiddleware(
-            thunk,
-        ),
+        applyMiddleware(thunk),
         window.devToolsExtension ? window.devToolsExtension() : f => f,
     )
 )

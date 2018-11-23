@@ -1,13 +1,13 @@
 {
-  "name": "zendesk_react_app_boilerplate",
+  "name": "zendesk-webphone",
   "version": "1.0.0",
-  "description": "",
+  "description": "Webphone Zendesk APP",
   "scripts": {
     "prod": "env=prod webpack",
     "dev": "env=dev webpack --watch"
   },
-  "author": "Cloudhuset.dk",
-  "license": "MIT",
+  "author": "Teravoz",
+  "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.1.21",
     "babel-loader": "^6.1.0",
@@ -17,6 +17,8 @@
     "babel-preset-react": "^6.1.18",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "html-webpack-externals-plugin": "^3.8.0",
+    "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.1.1",
     "react-css-modules": "^4.1.0",
     "style-loader": "^0.13.1",

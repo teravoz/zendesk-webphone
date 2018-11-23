@@ -7,7 +7,18 @@ export const actions = {
 }
 
 export const getRequesterEmail = () => dispatch => {
-    ZAFClient.get('ticket.requester.email').then(function(data) {
+  ZAFClient.on('app.registered', function appRegistered(e) {
+    console.log('#############', e);
+  });
+  
+  ZAFClient.has('app.registered', function(e) {
+    console.log('############# reg', e);
+  });
+  ZAFClient.has('app.activated', function(e) {
+    console.log('############# act' , e);
+  });
+    ZAFClient.metadata().then(function(data) {
+      console.log('#####', data);
         const email = data['ticket.requester.email']
 
         dispatch({

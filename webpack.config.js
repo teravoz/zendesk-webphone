@@ -1,19 +1,38 @@
 /* global __dirname */
 
-var path = require('path');
-var webpack = require('webpack');
-ExtractTextPlugin = require('extract-text-webpack-plugin');
-var dir_js = path.resolve(__dirname, 'src');
-var dir_build = path.resolve(__dirname, 'app/assets');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 const environment = process.env.env
 const isProductionBuild = process.env.env === 'prod'
 
 var plugins = [
     new ExtractTextPlugin('app.css', {
-        allChunks: true
+        allChunks: true,
+
     }),
-]
+    new HtmlWebpackPlugin({
+      template: 'app/templates/index.html'
+    }),
+    new HtmlWebpackExternalsPlugin({
+      externals: [
+        {
+          module: 'Teravoz',
+          entry: 'https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js',
+          global: 'Teravoz',
+        },
+        {
+          module: 'ZAFClient',
+          entry: 'https://assets.zendesk.com/apps/sdk/2.0/zaf_sdk.js',
+          global: 'ZAFClient',
+        },
+      ]
+    })
+];
 
 if(isProductionBuild) {
     plugins.push(new webpack.DefinePlugin({
@@ -25,9 +44,9 @@ if(isProductionBuild) {
 }
 
 module.exports = {
-    entry: path.resolve(dir_js, 'app.js'),
+    entry: path.resolve(path.resolve(__dirname, 'src'), 'app.js'),
     output: {
-        path: dir_build,
+        path: path.resolve(__dirname, 'app/assets'),
         filename: 'bundle.js'
     },
     resolve: {
