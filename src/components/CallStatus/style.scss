@@ -1,0 +1,22 @@
+@import '../../stylesheets/all.scss';
+
+.callstatus {
+  & span {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    @extend .typography;
+  }
+
+  &__black {
+    color: #000;
+  }
+
+  &__green {
+    color: #5db002;
+  }
+
+  &__grey {
+    color: #b3b3b3;
+  }
+}

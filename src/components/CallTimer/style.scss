@@ -1,0 +1,19 @@
+@import '../../stylesheets/all.scss';
+
+.calltimer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  color: #919191;
+  @extend .typography;
+  font-weight: 500;
+
+  &__timer {
+    font-size: 12px;
+  }
+
+  &__destination {
+    font-size: 12px;
+  }
+}

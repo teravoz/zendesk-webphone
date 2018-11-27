@@ -1,21 +1,13 @@
 import React from "react";
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { changePage, setAppHeight, saveRequesterEmailOnClient } from '../../actions'
+import { changePage, setAppHeight } from '../../actions'
 
-@connect(
-    state => ({
-
-    }),
-    dispatch => ({
-        ...bindActionCreators({changePage, saveRequesterEmailOnClient}, dispatch),
-        setAppHeight,
-    })
-)
-export default class PageTwo extends React.Component {
+class PageTwo extends React.Component {
 
     componentDidMount() {
         const height = document.getElementById('app').clientHeight
+        console.log('### HEIGHT', height);
         this.props.setAppHeight(height)
     }
 
@@ -29,3 +21,13 @@ export default class PageTwo extends React.Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators({ changePage }, dispatch),
+  setAppHeight
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(PageTwo);

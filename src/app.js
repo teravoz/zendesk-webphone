@@ -5,7 +5,9 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import reducer from './reducer'
 
-import Main from './containers/Main'
+import Main from './containers/Main/index';
+import "typeface-roboto";
+import './stylesheets/defaults.scss';
 
 const store = createStore(reducer,
     compose(
@@ -15,7 +17,7 @@ const store = createStore(reducer,
 )
 
 render((
-    <Provider store={store}>
+    <Provider store={ store }>
         <Main/>
     </Provider>
 ), document.getElementById('app'));

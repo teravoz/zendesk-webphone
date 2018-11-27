@@ -29,7 +29,15 @@ export const getRequesterEmail = () => dispatch => {
 }
 
 export const setAppHeight = height => {
-    ZAFClient.invoke('resize', { width: '100%', height: (height) + 'px' });
+    if (!height) {
+      return;
+    }
+
+    ZAFClient.invoke('resize', { width: '265px', height: (height) + 'px', border: 'none' });
+    
+    // setInterval(() => {
+    //   ZAFClient.invoke('popover', 'toggle');
+    // }, 1000);
 }
 
 export const changePage = (page, data = {}) => ({

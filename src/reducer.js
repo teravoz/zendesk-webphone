@@ -28,12 +28,11 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             page: action.page,
-            pageData: action.data,
+            pageData: action.data
         }
     }
 
-    return state
-
+    return state;
 }
 
 export default rootReducer

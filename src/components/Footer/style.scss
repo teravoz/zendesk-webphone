@@ -1,0 +1,41 @@
+@import '../../stylesheets/all.scss';
+
+.footer {
+  width: 100%;
+  background: #2e6580;
+  display: flex;
+  align-items: center;
+  height: $footer-height;
+  color: white;
+  font-size: 9px;
+  font-family: 'Roboto-Light', Arial, Helvetica, sans-serif;
+  flex-direction: row-reverse;
+  @extend .typography;
+
+  &__img {
+    width: 48px;
+    height: 48px;
+    padding-left: 3px;
+    padding-right: 10px;
+  }
+  
+  & span {
+    padding-top: 8px;
+    padding-right: 3px;
+    text-transform: uppercase;
+    font-weight: 100;
+    & b {
+      font-weight: 700;
+    }
+  }
+
+  & div {
+    padding-top: 8px;
+  }
+}
+
+
+
+.footer__items {
+
+}

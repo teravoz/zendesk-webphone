@@ -1,0 +1,48 @@
+@import '../../stylesheets/all.scss';
+
+.incoming {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  color: white;
+  padding: 0 13px;
+  margin-top: 19px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__icon {
+    
+    border-radius: 50%;
+    color: white;
+    font-size: 35px;
+
+    &__accept {
+      padding: 11px;
+      background: #20b2bb;
+    }
+
+    &__decline {
+      padding: 9px;
+      background: #d6002b;
+    }
+  }
+
+  &__text {
+    @extend .typography;
+    padding-top: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+
+    &__accept {
+      color: #20b2bb;
+    }
+    &__decline {
+      color: #d6002b;
+    }
+  }
+}

@@ -1,12 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg">
-  <symbol id="default" viewBox="0 0 18 18">
-        <g fill="none" fill-rule="evenodd" transform="translate(1 1)">
+<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+    <g fill="none" fill-rule="evenodd" transform="translate(1 1)">
         <path fill="#1C8FC7" fill-rule="nonzero" d="M10.5 1.91a8.591 8.591 0 1 0 0 17.182 8.591 8.591 0 0 0 0-17.183zm4.537 12.534l-.688.688c-.123.123-.483.2-.494.2a8.118 8.118 0 0 1-5.811-2.376 8.128 8.128 0 0 1-2.376-5.83c0-.002.078-.351.201-.473l.688-.687c.252-.253.735-.368 1.074-.254l.144.048c.338.113.693.487.786.83l.346 1.27c.093.346-.032.836-.284 1.088l-.46.46a4.879 4.879 0 0 0 3.431 3.43l.46-.459c.252-.252.743-.378 1.087-.285l1.27.347c.344.095.717.447.83.785l.048.146c.113.338 0 .822-.252 1.072z"/>
         <circle cx="10.5" cy="10.5" r="10.5" stroke="#1C8FC7"/>
     </g>
-  </symbol>
-
-  <symbol id="mySymbol" viewBox="0 0 18 18">
-    <path d="M0 0h9v3H0zM0 7h18v3H0zM0 14h18v3H0zM15 3l3-3h-6"/>
-  </symbol>
 </svg>
