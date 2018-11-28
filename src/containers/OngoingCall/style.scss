@@ -1,0 +1,26 @@
+@import '../../stylesheets/all.scss';
+
+.ongoing {
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    height: 27px;
+    &__wrapper {
+      &:hover {
+        cursor: pointer;
+        padding: 10px;
+      }
+    }
+  }
+}
+
+.rotate {
+  &__up {
+    transform: rotate(180deg);
+  }
+  &__down {
+    transform: rotate(0deg);
+  }
+}

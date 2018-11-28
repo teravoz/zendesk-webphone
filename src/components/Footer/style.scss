@@ -1,6 +1,8 @@
 @import '../../stylesheets/all.scss';
 
 .footer {
+  position: fixed;
+  bottom: 0;
   width: 100%;
   background: #2e6580;
   display: flex;
@@ -11,12 +13,10 @@
   font-family: 'Roboto-Light', Arial, Helvetica, sans-serif;
   flex-direction: row-reverse;
   @extend .typography;
-
-  &__img {
-    width: 48px;
+   &__img {
+    width: 60px;
     height: 48px;
-    padding-left: 3px;
-    padding-right: 10px;
+    padding-right: 18px;
   }
   
   & span {
@@ -28,14 +28,7 @@
       font-weight: 700;
     }
   }
-
-  & div {
+   & div {
     padding-top: 8px;
   }
-}
-
-
-
-.footer__items {
-
 }

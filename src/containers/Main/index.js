@@ -4,11 +4,9 @@ import { bindActionCreators } from 'redux'
 
 import {  resetStore, setAppHeight } from '../../actions'
 
-import PageOne from '../PageOne'
-import PageTwo from '../PageTwo'
 import Footer from '../../components/Footer';
-import Profile from '../../components/Profile';
 import IncomingRequest from '../IncomingRequest';
+import OngoingCall from '../OngoingCall';
 import styles from './styles.scss';
 
 class Main extends React.Component {
@@ -24,26 +22,24 @@ class Main extends React.Component {
   page = () => {
     const { page } = this.props
 
-    if (page == 'PageOne') {
-      return (<PageOne />);
+    if (page == 'ongoing-call') {
+      return (<OngoingCall />);
     }
 
-    if (page == 'PageTwo') {
-      return (<PageTwo />);
+    if (page == 'incoming-request') {
+      return (<IncomingRequest />);
     }
 
-    return null;
+    
+
+    return (<OngoingCall />);
   } 
 
   render() {
       return (
         <div>
           <div className={ styles.content }>
-            <Profile 
-              name="Enrico Alvarenga"
-              email="ealvarenga@teravoz.com.br"
-              tags={ [ 'Sem acordo', 'Não quer pagar', 'Enrico Manente Alvarenga'] } />
-            <IncomingRequest />
+            <this.page />
           </div>
           <Footer />
         </div>

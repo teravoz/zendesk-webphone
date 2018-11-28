@@ -21,6 +21,9 @@ div#app {
 .mt10 {
   margin-top: 10px;
 }
+.mt12 {
+  margin-top: 12px;
+}
 .mt15 {
   margin-top: 15px;
 }
@@ -39,4 +42,9 @@ div#app {
   font-stretch: normal;
   line-height: normal;
   letter-spacing: normal;
+}
+
+
+.hidden {
+  display: none !important;
 }

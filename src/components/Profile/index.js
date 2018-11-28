@@ -3,11 +3,19 @@ import PropTypes from 'prop-types';
 import styles from './style.scss';
 import profileIcon from '../../assets/profile.svg';
 
-const Profile = ({ name, email, tags }) => {
+const Profile = ({ name, email, tags, dark }) => {
 
     let center = '';
     if (tags && tags.length > 0) {
       center = styles.center;
+    }
+    let theme = {
+      single: styles.profile__info__tags__single,
+      title: styles.profile__info__tags__title 
+    };
+    if (dark) {
+      theme.single = styles.profile__info__tags__single + ' ' + styles.profile__info__tags__single__dark;
+      theme.title = styles.profile__info__tags__title  + ' ' + styles.profile__info__tags__title__dark;
     }
 
     return (
@@ -20,11 +28,11 @@ const Profile = ({ name, email, tags }) => {
             tags && tags.length > 0 ? 
             (
             <div className={ styles.profile__info__tags }>
-              <span className={ styles.profile__info__tags__title }>Tags:</span>
+              <span className={ theme.title }>Tags:</span>
               { 
-                tags.map(t => {
+                tags.map((t, i) => {
                   t = t.length > 15 ? `${t.substring(0, 15).trim()}...`  : t;
-                  return (<span className={ styles.profile__info__tags__single } > { t } </span>)
+                  return (<span key={ i } className={ theme.single } > { t } </span>)
                 })
               }
             </div>
@@ -38,7 +46,8 @@ const Profile = ({ name, email, tags }) => {
 Profile.propTypes = {
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  tags: PropTypes.array.isRequired
+  tags: PropTypes.array.isRequired,
+  dark: PropTypes.bool
 }
 
 export default Profile;

@@ -8,9 +8,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack'); 
 
 
-const environment = process.env.env
-const isProductionBuild = process.env.env === 'prod'
-
 var plugins = [
     new ExtractTextPlugin('app.css', {
         allChunks: true,

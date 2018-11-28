@@ -5,40 +5,29 @@ import PropTypes from 'prop-types';
 import { setAppHeight } from '../../actions'
 
 import styles from './style.scss';
-import CallStatus from '../../components/CallStatus/index';
-import CallTimer from '../../components/CallTimer/index';
-import HangupIcon from '../../components/Icons/Hangup';
-import AcceptIcon from '../../components/Icons/Accept';
+import CallButtons from '../../components/CallButtons';
+import Profile from '../../components/Profile';
 
 class IncomingRequest extends React.Component {
 
   componentWillMount() {
-    // Calculate the waiting time... provide a API to obtain these data.
+    // Calculate the waiting time... provide an API to obtain these data.
   }
 
   render() {
     return (
-      <div className={ styles.incoming }>
-        <div className={ styles.incoming__item }>
-          <div className={ styles.incoming__icon + ' ' + styles.incoming__icon__accept }>
-            <AcceptIcon />
-          </div>
-          <span className={ styles.incoming__text + ' ' + styles.incoming__text__accept }>
-            Aceitar
-          </span>
-        </div>
-        <div className={ styles.incoming__info }>
-          <CallStatus status="waiting" />
-          <CallTimer classes={ styles.mt7 } time="00:10:01" destination="Comercial" />
-        </div>
-        <div className={ styles.incoming__item }>
-          <div className={ styles.incoming__icon + ' ' + styles.incoming__icon__decline } >
-            <HangupIcon />
-          </div>
-          <span className={ styles.incoming__text + ' ' + styles.incoming__text__decline }>
-            Rejeitar
-          </span>
-        </div>
+      <div>
+        <Profile 
+          name="Enrico Alvarenga"
+          email="ealvarenga@teravoz.com.br"
+          tags={ [ 'Sem acordo', 'Não quer pagar', 'Enrico Manente Alvarenga' ] } 
+        />
+        <CallButtons 
+          buttonSuccessLabel="Aceitar"
+          buttonSuccessClick={ () => console.log('enrico') }
+          buttonRejectLabel="Rejeitar"
+          buttonRejectClick={ () => console.log() }
+        />
       </div>
     );
   }

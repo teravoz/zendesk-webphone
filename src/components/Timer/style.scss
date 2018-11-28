@@ -1,0 +1,12 @@
+@import '../../stylesheets/all.scss';
+
+.timer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  color: #919191;
+  @extend .typography;
+  font-weight: 500;
+  font-size: 16px;
+}
