@@ -1,11 +1,19 @@
 @import '../../stylesheets/all.scss';
 
 .callstatus {
+  text-align: center;
+  height: 22px;
   & span {
     font-size: 10px;
     font-weight: 500;
     text-transform: uppercase;
     @extend .typography;
+  }
+
+  &__vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__black {

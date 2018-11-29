@@ -34,7 +34,7 @@ const CallStatus = (props) => {
        { 
          colors.length == 2 ? 
           (
-            <div>
+            <div className={ styles.callstatus__vertical }>
               <span className={ colors[0] }> { texts[0] } </span>
               <span className={ colors[1] }> { (texts[1]) } </span> 
             </div> 

@@ -1,0 +1,142 @@
+@import '../../style.scss';
+
+
+// .select {
+//   -webkit-appearance: none;
+//   -moz-appearance: none;
+//   -o-appearance: none;
+
+//   &:disabled ~ .selectIcon {
+//     opacity: 0.3 !important;
+//   }
+// }
+
+// .selectIcon {
+//   font-size: 30px !important;
+// }
+
+// select + svg.selectIcon {
+  //   float: right;
+  //   margin-top: -30px;
+  //   margin-right: 5px;
+  //   /* this is so when you click on the chevron, your click actually goes on the dropdown menu */
+  //   pointer-events: none;
+  //   /* everything after this is just to cover up the original arrow */
+  //   /* (for browsers that don't support the syntax used above) */
+  //   background-color: #fff;
+  //   padding-right: 5px;
+// }
+
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.dropdown {
+  width: 100%;
+  display: inline-block;
+  background-color: #fff;
+  transition: all .5s ease;
+  color: #474747;
+  height: 100%;
+  border:none;
+  & ~ .label {
+    opacity: 0.3;
+    top:-10px;
+    font-size:12px;
+    color: $grey;
+  }
+
+  &:active {
+    background-color: #f8f8f8
+  }
+
+}
+
+.select {
+  @extend .input;
+  width: 100%;
+  cursor: pointer;
+}
+
+.hiddenInput {
+  display: none;
+
+  &:disabled {
+    background: none;
+    opacity: 0.3;
+  }
+
+  &:disabled ~ .label {
+    opacity: 0.3;
+    top:-10px;
+    font-size:12px;
+    color: $grey;
+  }
+
+  &:focus ~ .label,
+  &:valid ~ .label {
+    top:-10px;
+    font-size:12px;
+    color: $grey;
+  }
+
+  &:invalid ~ .label {
+    top: 16px;
+  }
+}
+
+.disabled {
+  opacity: 0.3;
+  color: $grey;
+  cursor: default
+}
+
+.cursorDefault {
+  cursor: default
+}
+
+.rotateIconUp {
+  transition: cubic-bezier(0.19, 1, 0.22, 1);
+  transform: rotate(-180deg)
+}
+
+.dropdown > ul::-webkit-scrollbar {
+  display: none;
+}
+
+.dropdown .dropdownMenu {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    margin-top: 1px;
+    box-shadow: 0 1px 2px rgb(204, 204, 204);
+    border-radius: 0 1px 5px 5px;
+    overflow-y: auto;
+    max-height: 144px;
+    overflow-y: auto;
+    z-index: 9;
+    @include desktop {  
+      max-height: 200px;
+    }
+}
+.dropdown .dropdownMenu li {
+    padding: 10px;
+    transition: all .2s ease-in-out;
+    cursor: pointer
+} 
+.dropdown .dropdownMenu {
+    padding: 0;
+    list-style: none
+}
+.dropdown .dropdownMenu li:hover {
+    background-color: #f2f2f2
+}
+.dropdown .dropdownMenu li:active {
+    background-color: #e2e2e2
+}

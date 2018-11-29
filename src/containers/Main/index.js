@@ -8,16 +8,10 @@ import Footer from '../../components/Footer';
 import IncomingRequest from '../IncomingRequest';
 import OngoingCall from '../OngoingCall';
 import styles from './styles.scss';
+import Login from "../Login";
+import Dialing from "../Dialing";
 
 class Main extends React.Component {
-
-  componentWillMount() {
-    document.getElementById('app').style.height = '214px';
-    this.props.setAppHeight(214);
-  }
-  
-  componentDidMount() {
-  }
 
   page = () => {
     const { page } = this.props
@@ -30,9 +24,15 @@ class Main extends React.Component {
       return (<IncomingRequest />);
     }
 
-    
+    if (page == 'login') {
+      return (<Login />);
+    }
 
-    return (<OngoingCall />);
+    if (page == 'dialing') {
+      return (<Dialing />);
+    }
+
+    return (<Dialing />);
   } 
 
   render() {

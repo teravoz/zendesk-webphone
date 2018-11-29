@@ -1,0 +1,100 @@
+@import '../../stylesheets/all.scss';
+
+.dialing {
+  height:100%;
+  
+  &__form {
+    margin-top: 17px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 0 20.5px 0 19px;
+    &__item {
+      width: 100%;
+      text-align: center;
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+
+      &__countrycode {
+        width: 70px;
+      }
+
+      &__number {
+        width: 147px;
+      }
+
+      &__horizontal {
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      &__info {
+        @extend .typography;
+        font-size: 10px;
+        color: #6d93a6;
+        margin-top: 3px;
+        display: inline-block;
+      }
+
+      &__error {
+        color: $errorColor;
+      }
+
+      &__button {
+        @extend .typography;
+        background: #20b2bb;
+        border-radius: 100px;
+        width: 106px;
+        height: 30px;
+        font-size: 14px;
+        color: #FFF;
+        text-align: center;
+        letter-spacing: -0.3px;
+        font-weight: 100;
+        border: none;
+        transition: all 500ms cubic-bezier(0.18, 0.81, 0.57, 1.1);
+
+        &:hover {
+          cursor: pointer;
+          background: #15A2AB;
+        }
+      }
+
+      & label {
+        @extend .typography;
+        font-size: 12px;
+        color: #FFF;    
+        font-weight: 100;
+      }
+
+      & input {
+        @extend .typography;
+        padding-left: 8px;
+        padding-bottom: 6.5px;
+        color: #787878;
+        border: 0;
+        border-bottom: 2px solid rgba($color: #999, $alpha: .3);
+        outline: none;
+        font-size: 14px;
+        font-weight: 100;
+      }
+
+      & input::-webkit-input-placeholder {
+        @extend .typography;
+        font-size: 14px;
+        font-weight: 100;
+        color: #d1d1d1;
+      } 
+      & input::-ms-input-placeholder {
+        @extend .typography;
+        color: #d1d1d1;
+      } 
+      & input::-moz-placeholder {
+        @extend .typography;
+        color: #d1d1d1;
+      } 
+    }
+  }
+}
