@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { setAppHeight } from '../../actions'
 
 import styles from './style.scss';
+import Select from '../../components/Select';
 
 class Dialing extends React.Component {
 
@@ -18,7 +19,11 @@ class Dialing extends React.Component {
       <div className={ styles.dialing }>
         <div className={ styles.dialing__form }>
           <div className={ styles.dialing__form__item }>
-            <input className={ styles.dialing__form__item__countrycode } type="text" placeholder="DDD" />
+            <Select 
+              onSelectionChange={ () => console.log('lll') }
+              items={ [ { value: '+55', label: '+55' } ] } 
+              value={ '+55' }
+            />
           </div>
           <div className={ styles.dialing__form__item }>
             <input className={ styles.dialing__form__item__number } type="text" placeholder="DDD + Número" />
