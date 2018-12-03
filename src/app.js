@@ -3,13 +3,13 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import reducer from './reducer'
+import reducers from './reducers/index'
 
-import Main from './containers/Main/index';
+import Adapter from './containers/Adapter/index';
 import "typeface-roboto";
 import './stylesheets/defaults.scss';
 
-const store = createStore(reducer,
+const store = createStore(reducers,
     compose(
         applyMiddleware(thunk),
         window.devToolsExtension ? window.devToolsExtension() : f => f,
@@ -18,6 +18,6 @@ const store = createStore(reducer,
 
 render((
     <Provider store={ store }>
-        <Main/>
+        <Adapter />
     </Provider>
 ), document.getElementById('app'));

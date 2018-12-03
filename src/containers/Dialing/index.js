@@ -2,11 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types';
-import { setAppHeight } from '../../actions'
-import classnames from 'classnames';
 
 import styles from './style.scss';
-import Select from '../../components/Select';
+
 import Toolbox from '../../components/Toolbox';
 import KeyboardIcon from '../../components/Icons/KeyboardIcon';
 import UserIcon from '../../components/Icons/UserIcon';
@@ -15,6 +13,9 @@ import Button from '../../components/Button';
 import AcceptIcon from '../../components/Icons/Accept';
 import Keyboard from '../../components/Keyboard';
 import Dialform from '../../components/Dialform';
+
+import { setAppHeight, changePage } from '../../actions/settings';
+import { setCountryCode, setDialing, setNumber } from '../../actions/dialing';
 
 class Dialing extends React.Component {
   
@@ -26,8 +27,11 @@ class Dialing extends React.Component {
   }
 
   componentWillMount() {
-    // Calculate the waiting time... provide an API to obtain these data.
     this.props.setAppHeight(290);
+
+    this.props.teravoz.events.on('calling', () => {
+      this.props.changePage('');
+    });
   }
 
   keyboard() {
@@ -52,56 +56,56 @@ class Dialing extends React.Component {
   }
 
   numberHandler(e) {
-    console.log(e.target.value);
+    this.props.setNumber(e.target.value);
   }
 
   countryCodeHandler(value) {
-    console.log(value);
+    this.props.setCountryCode(value);
   }
 
   render() {
     return (
       <div className={ styles.dialing }>
-          <Dialform
-            classes={ styles.mt20 }
-            numberHandler={ this.numberHandler }
-            countryCodeHandler={ this.countryCodeHandler }
-            visible={ true }     
+        <Dialform
+          classes={ styles.mt20 }
+          numberHandler={ this.numberHandler }
+          countryCodeHandler={ this.countryCodeHandler }
+          visible={ true }     
+        />
+        <Toolbox 
+          icons={[
+            { 
+              icon: KeyboardIcon, 
+              label: 'Teclado', 
+              handler: this.keyboard.bind(this), 
+              disabled: this.state.keyboard 
+            },
+            { 
+              icon: UserIcon, 
+              label: 'Contatos', 
+              handler: this.contacts.bind(this), 
+              disabled: this.state.contacts  
+            },
+            { icon: TransferIcon, 
+              label: 'Histórico', 
+              handler: this.history.bind(this), 
+              disabled: this.state.history 
+            }
+          ]}
+          classes={ styles.mt40 }
+          visible={ true } 
+          setAppHeight={ () => {} } 
+        />
+        <Keyboard classes={ styles.mt25 } visible={ this.state.keyboard }/>
+        <div className={ styles.dialing__button }>
+          <Button 
+            classes={ styles.dialing__button__size }
+            primary={ true } 
+            label="Ligar" 
+            icon={ <AcceptIcon /> }
           />
-          <Toolbox 
-            icons={[
-              { 
-                icon: KeyboardIcon, 
-                label: 'Teclado', 
-                handler: this.keyboard.bind(this), 
-                disabled: this.state.keyboard 
-              },
-              { 
-                icon: UserIcon, 
-                label: 'Contatos', 
-                handler: this.contacts.bind(this), 
-                disabled: this.state.contacts  
-              },
-              { icon: TransferIcon, 
-                label: 'Histórico', 
-                handler: this.history.bind(this), 
-                disabled: this.state.history 
-              }
-            ]}
-            classes={ styles.mt40 }
-            visible={ true } 
-            setAppHeight={ () => {} } 
-          />
-          <Keyboard classes={ styles.mt25 } visible={ this.state.keyboard }/>
-          <div className={ styles.dialing__button }>
-            <Button 
-              classes={ styles.dialing__button__size }
-              primary={ true } 
-              label="Ligar" 
-              icon={ <AcceptIcon /> }
-            />
-          </div>  
-        </div>
+        </div>  
+      </div>
     );
   }
 }
@@ -110,15 +114,14 @@ Dialing.propTypes = {
   action: PropTypes.string,
 };
 
-
 const mapDispatchToProps = dispatch => ({
-  // ...bindActionCreators({ resetStore }, dispatch),
+  ...bindActionCreators({ changePage, setCountryCode, setDialing, setNumber }, dispatch),
   setAppHeight
 });
 
-const mapStateToProps = ({ page }) => ({ page });
+const mapStateToProps = ({ settings, dialing }) => ({ ...settings, ...dialing });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Dialing);

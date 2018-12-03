@@ -1,0 +1,19 @@
+@import '../../stylesheets/all.scss';
+
+.loading {
+  height: 100%;
+  background: #2e6580;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  & span {
+    @extend .typography;
+    width: 50%;
+    font-weight: 100;
+    text-align: center;
+    color: #FFF;
+    font-size: 18px;
+  }
+}

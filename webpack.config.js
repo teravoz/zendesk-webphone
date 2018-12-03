@@ -18,11 +18,6 @@ var plugins = [
     new HtmlWebpackExternalsPlugin({
       externals: [
         {
-          module: 'Teravoz',
-          entry: 'https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js',
-          global: 'Teravoz',
-        },
-        {
           module: 'ZAFClient',
           entry: 'https://assets.zendesk.com/apps/sdk/2.0/zaf_sdk.js',
           global: 'ZAFClient',
@@ -71,7 +66,9 @@ module.exports = (env) => {
               options: {
                 cacheDirectory: true,
                 presets: ['@babel/preset-env', '@babel/preset-react'],
-                plugins: ['@babel/plugin-proposal-class-properties']
+                plugins: [
+                  '@babel/plugin-proposal-class-properties',
+                ]
               }
             }
           ]
