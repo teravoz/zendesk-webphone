@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './style.scss';
-import MicrophoneIcon from '../Icons/Microphone';
-import PhonePausedIcon from '../Icons/PhonePaused';
-import TransferIcon from '../Icons/Transfer';
+
 
 class Toolbox extends React.Component {
 
@@ -19,37 +18,24 @@ class Toolbox extends React.Component {
     }
   }
 
-  pressed = (origin) => (e) => {
-    const { transferClick, muteClick, pauseClick } = this.props;
-    switch(origin) {
-      case 'transfer':
-        transferClick();
-        break;
-      case 'mute':
-        muteClick();
-        break;
-      case 'pause':
-        pauseClick();
-        break;
-    }
-  }
+  icons = () => {
+    const { icons } = this.props;
 
-  getTheme() {
-    const { muted, paused } = this.props;
-    let theme = { 
-      muted: { icon: null, text: styles.toolbox__text }, 
-      paused: { icon: null, text: styles.toolbox__text } 
-    };
-    if (muted) {
-      theme.muted.text = styles.toolbox__text + ' ' + styles.toolbox__disabled;
-      theme.muted.icon = '#d3d3d3';
-    }
-    if (paused) {
-      theme.paused.text = styles.toolbox__text + ' ' + styles.toolbox__disabled;
-      theme.paused.icon = '#d3d3d3';
-    }
-
-    return theme;
+    return icons.map((item, i) => {
+      return (
+        <Fragment>
+          <div className={ styles.toolbox__items } onClick={ item.disabled ? null : item.handler }>
+            <div className={ classnames(styles.toolbox__icon) }>
+              <item.icon color={ item.disabled ? '#d3d3d3' : null }/>
+            </div>
+            <span className={ classnames(styles.toolbox__text, { [styles.toolbox__text__disabled]: item.disabled }) } > 
+              { item.label } 
+            </span>
+          </div>
+          { (icons[i+1]) ? <div className={ styles.divider }></div> : null }
+        </Fragment>
+      );
+    });
   }
 
   render() {
@@ -58,30 +44,10 @@ class Toolbox extends React.Component {
     if (!visible) {
       hidden = styles.hidden;
     }
-    const theme = this.getTheme();
 
     return (
-      <div className={ styles.toolbox + ' ' + styles.mt20 + ' ' + hidden  } id="toolbox" ref="toolbox">
-        <div className={ styles.toolbox__items } onClick={ this.pressed.bind(this)('mute') }>
-          <div className={ styles.toolbox__icon + ' ' + theme.muted.icon }>
-            <MicrophoneIcon color={ theme.muted.icon }/>
-          </div>
-          <span className={ theme.muted.text } >Mute</span>
-        </div>
-        <div className={ styles.divider }></div>
-        <div className={ styles.toolbox__items } onClick={ this.pressed.bind(this)('pause') }> 
-          <div className={ styles.toolbox__icon + ' ' + theme.paused.icon }>
-            <PhonePausedIcon color={ theme.paused.icon } />
-          </div>
-          <span className={ theme.paused.text }>Pausar</span>
-        </div>
-        <div className={ styles.divider }></div>
-        <div className={ styles.toolbox__items } onClick={ this.pressed.bind(this)('transfer') }>
-          <div className={ styles.toolbox__icon }>
-            <TransferIcon />
-          </div>
-          <span className={ styles.toolbox__text }>Transferir</span>
-        </div>
+      <div className={ classnames(styles.toolbox, hidden, this.props.classes) } id="toolbox" ref="toolbox">
+        <this.icons />
       </div>
     );
   }
@@ -89,12 +55,14 @@ class Toolbox extends React.Component {
 
 Toolbox.propTypes = {
   setAppHeight: PropTypes.func.isRequired,
+  icons: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    icon: PropTypes.func.isRequired,
+    handler: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired
+  })).isRequired,
   visible: PropTypes.bool.isRequired,
-  muteClick: PropTypes.func.isRequired,
-  pauseClick: PropTypes.func.isRequired,
-  transferClick: PropTypes.func.isRequired,
-  muted: PropTypes.bool.isRequired,
-  paused: PropTypes.bool.isRequired
+  classes: PropTypes.string
 };
 
 export default Toolbox;

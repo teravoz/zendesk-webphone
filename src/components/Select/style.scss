@@ -1,14 +1,17 @@
+@import '../../stylesheets/all.scss';
 
-$paddingMd: 10px;
+$paddingMd: 0px;
 
-$paddingSm: 5px;
+$paddingSm: 0px;
+
+$disabled: #b2b2b2;
 
 $marginMd: 10px;
 
-$halfHeight: 50%;
+$halfHeight: 90%;
 
-$selectArrowWidth: 8px;
-$selectArrowHeight: 11px;
+$selectArrowWidth: 4px;
+$selectArrowHeight: 6px;
 
 $selectArrowPart1Angle: 55deg;
 $selectArrowPart2Angle: 125deg;
@@ -24,37 +27,61 @@ $selectDefaultPadding: $paddingSm $paddingMd;
  @return linear-gradient($angle, $color1 50%, $color2 50%);
 }
 
-.select-default {
+.select {
   position: relative;
-
-  .label {
-    padding: $paddingSm $paddingMd;
-
+  border-bottom: 2px solid rgba($color: #999, $alpha: .3);
+  
+  &__label {
+    display: flex;
+    flex-direction: column;
+    margin-top: -6px;
     border: none;
     box-shadow: none;
     background-image:
-      arrow-part($selectArrowPart1Angle, transparent, #313131),
-      arrow-part($selectArrowPart2Angle, #313131, transparent);
+      arrow-part($selectArrowPart1Angle, transparent, #787878),
+      arrow-part($selectArrowPart2Angle, #787878, transparent);
     background-position: $selectArrowPosition1, $selectArrowPosition2;
     background-size: $selectArrowSize;
     background-repeat: no-repeat;
-    color: #999;
+    color: #000;
     cursor: pointer;
     outline: 0;
     overflow: hidden;
+
+    &__text {
+      @extend .typography;
+      font-size: 22px;
+      color: #000;
+      margin-right: 27px;
+      &__disabled {
+        color: #bac0c3;
+        cursor: default;
+      }
+    }
+
+    &__description {
+      @extend .typography;
+      font-size: 8px;
+      color: #b2b2b2;
+      margin-right: 18px;
+    }
   }
-  &.open .label {
+
+  &__open &__label {
     background-image:
-      arrow-part($selectArrowPart1Angle, #313131, transparent),
-      arrow-part($selectArrowPart2Angle, transparent, #313131);
+      arrow-part($selectArrowPart1Angle, #787878, transparent),
+      arrow-part($selectArrowPart2Angle, transparent, #787878);
     background-position: $selectArrowPosition2, $selectArrowPosition1;
     background-size: $selectArrowSize;
     background-repeat: no-repeat;
   }
-  .options {
+  &__options {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.25s ease-in-out;
     background-color: #FFF;
     left: 0;
-    max-height: 300px;
+    height: 140px;
+    text-align: left;
     margin: $marginMd 0 0 0;
     overflow-y: scroll;
     padding: 0;
@@ -62,17 +89,21 @@ $selectDefaultPadding: $paddingSm $paddingMd;
     -webkit-overflow-scrolling: touch;
     width: calc(100% - 2px);
     z-index: 5000;
-
+    @extend .typography;
+    font-size: 12px;
+    color: #787878;
+    
     li {
-
       cursor: pointer;
-      border-bottom: 2px solid rgba($color: #787878, $alpha: .3);
-      padding: $paddingSm $paddingMd;
+      padding: 10px 0;
+      padding-left: 5px;
+      
 
       &:hover {
         color: #fff;
-        background-color: red;
+        background: rgba(0, 0, 0, .5);
       }
+
       &:last-child {
         border-bottom: none;
         border-bottom-left-radius: 5px;

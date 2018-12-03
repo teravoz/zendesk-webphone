@@ -9,6 +9,16 @@
   background: white;
   padding: 0 13px 0 20px;
 
+  &__wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background: white;
+    padding: 0 13px 0 20px;
+  }
+
   &__icon {
     display: flex;
     justify-content: center;
@@ -24,11 +34,11 @@
     font-size: 10px;  
     font-weight: 500;
     color: #787878;
+    &__disabled {
+      color: #d3d3d3;
+    }
   }
   
-  &__disabled {
-    color: #d3d3d3;
-  }
   
   &__items {
     display: flex;

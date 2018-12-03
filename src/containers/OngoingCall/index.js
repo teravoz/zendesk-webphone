@@ -12,6 +12,9 @@ import CallStatus from '../../components/CallStatus';
 import Timer from '../../components/Timer';
 import DoubleArrowIcon from '../../components/Icons/DoubleArrow';
 import Toolbox from '../../components/Toolbox';
+import MicrophoneIcon from '../../components/Icons/Microphone';
+import PhonePausedIcon from '../../components/Icons/PhonePaused';
+import TransferIcon from '../../components/Icons/Transfer';
 
 class OngoingCall extends React.Component {
 
@@ -19,7 +22,8 @@ class OngoingCall extends React.Component {
     toolbox: true,
     currentStatus: [],
     muted: false,
-    paused: false
+    paused: false,
+    transfer: false
   }
 
   componentWillMount() {
@@ -67,6 +71,9 @@ class OngoingCall extends React.Component {
     this.setState({ muted: !muted, currentStatus });
   }
 
+  transfer() {
+  }
+
 
   render() {
     return (
@@ -85,13 +92,27 @@ class OngoingCall extends React.Component {
           slot={ <this.callTimers /> } 
         />
         <Toolbox 
+          icons={[
+            { 
+              icon: MicrophoneIcon, 
+              label: 'Mute', 
+              handler: this.mute.bind(this), 
+              disabled: this.state.muted 
+            },
+            { 
+              icon: PhonePausedIcon, 
+              label: 'Pausar', 
+              handler: this.pause.bind(this), 
+              disabled: this.state.paused  
+            },
+            { icon: TransferIcon, 
+              label: 'Transferir', 
+              handler: this.transfer.bind(this), 
+              disabled: this.state.transfer 
+            }
+          ]}
           visible={ this.state.toolbox } 
           setAppHeight={ this.props.setAppHeight } 
-          muteClick={ this.mute.bind(this) }
-          pauseClick={ this.pause.bind(this) }
-          transferClick={ () => {} }
-          muted={ this.state.muted }
-          paused={ this.state.paused }
         />
         <div onClick={ this.rotateArrow } className={ styles.ongoing__icon + ' ' + styles.mt10 }>
           <div className={ styles.ongoing__icon__wrapper }>

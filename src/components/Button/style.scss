@@ -1,0 +1,62 @@
+@import '../../stylesheets/all.scss';
+
+.button {
+  @extend .typography;
+  border-radius: 100px;
+  height: 30px;
+  font-size: 14px;
+  color: #FFF;
+  text-align: center;
+  letter-spacing: -0.3px;
+  font-weight: 100;
+  border: none;
+  transition: all 500ms cubic-bezier(0.18, 0.81, 0.57, 1.1);
+  outline: 0;
+  text-transform: uppercase;
+  
+  &__small {
+    width: 100px;
+  }
+
+  &__medium {
+    width: 135px;
+  }
+
+  &__large {
+    width: 200px;
+  }
+
+  &__primary {
+    background: #20b2bb;
+    &:hover {
+      cursor: pointer;
+      background: #15A2AB;
+    }
+  }
+
+  &__transparent {
+    background: transparent;
+    &__red {
+      border: 1px solid #d6002b;
+      color: #d6002b;
+      transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+
+    &__left {
+      padding-left: 8px;
+      padding-right: 10px;
+    }
+  }
+
+}

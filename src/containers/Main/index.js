@@ -10,6 +10,7 @@ import OngoingCall from '../OngoingCall';
 import styles from './styles.scss';
 import Login from "../Login";
 import Dialing from "../Dialing";
+import Calling from "../Calling";
 
 class Main extends React.Component {
 
@@ -32,7 +33,11 @@ class Main extends React.Component {
       return (<Dialing />);
     }
 
-    return (<Dialing />);
+    if (page == 'calling') {
+      return (<Calling />);
+    }
+
+    return (<Calling />);
   } 
 
   render() {

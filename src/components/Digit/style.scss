@@ -1,0 +1,17 @@
+
+
+.digit {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #787878;
+
+  &__number {
+    font-size: 30px;
+  }
+
+  &__letters {
+    font-size: 10px;
+  }
+}

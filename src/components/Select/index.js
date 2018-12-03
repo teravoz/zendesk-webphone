@@ -22,6 +22,9 @@ class Select extends Component {
   }
 
   onToggleList = () => {
+    if (this.props.disabled) {
+      return;
+    }
     this.setState((prevState) => ({ listOpen: !prevState.listOpen }));
   }
 
@@ -43,25 +46,29 @@ class Select extends Component {
     }
 
     const options = [];
-
-    this.state.items.forEach((item, i) => options.push(
-      <li key={ i } value={ item.value } onClick={ () => this.onSelectionChanged(item) }>{ item.label }</li>
-    ));
+    
+    this.state.items.forEach((item, i) => {
+      const label = item.additional ? `${item.additional} ${item.label}` : item.label;
+      options.push(<li key={ i } value={ item.value } 
+        onClick={ () => this.onSelectionChanged(item) }> { label } </li>)
+    });
 
     return (
-      <ul className="options">
+      <ul className={ styles.select__options }>
         { options }
       </ul>
     )
   }
 
   render(){
-    const{ className } = this.props;
+    const{ className, disabled } = this.props;
     const{ listOpen, selected } = this.state;
     return(
-      <div className={ classNames(className, styles['select-default'], { open: listOpen }) }>
-        <div className="label" onClick={ this.onToggleList }>
-          { selected.label }
+      <div className={ classNames(className, styles.select, { [styles.select__open]: listOpen }) }>
+        <div className={ styles.select__label } onClick={ this.onToggleList }>
+          <span className={ styles.select__label__description }> { selected.description } </span>
+          <label className={ classNames(styles.select__label__text, 
+            { [styles.select__label__text__disabled]: disabled }) }> { selected.label } </label>
         </div>
         <this.items />
       </div>
@@ -73,6 +80,7 @@ Select.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
+    description: PropTypes.string
   })).isRequired,
   onSelectionChanged: PropTypes.func,
   value: PropTypes.string
