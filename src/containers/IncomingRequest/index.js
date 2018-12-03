@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types';
-import { setAppHeight } from '../../actions'
 
-import styles from './style.scss';
+import { setAppHeight } from '../../actions/settings';
 import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';
+import styles from './style.scss';
 
 class IncomingRequest extends React.Component {
 

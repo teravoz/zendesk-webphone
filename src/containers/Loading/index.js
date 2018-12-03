@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import Lottie from 'react-lottie';
 
-import { resetStore, setAppHeight } from '../../actions';
+import { setAppHeight } from '../../actions/settings';
 import * as loadingAnimation from '../../assets/loading-lottie.json';
 import styles from './style.scss';
 
@@ -47,7 +47,7 @@ class Loading extends React.Component {
 
 const mapDispatchToProps = dispatch => ({ setAppHeight });
 
-const mapStateToProps = ({ text }) => ({ text });
+const mapStateToProps = ({ loading }) => ({ ...loading });
 
 export default connect(
   mapStateToProps,

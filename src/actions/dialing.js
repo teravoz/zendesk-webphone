@@ -1,5 +1,3 @@
-import ZAF from '../misc/ZAFClient';
-
 export const actions = {
   SET_NUMBER: 'SET_NUMBER',
   SET_COUNTRY_CODE: 'SET_COUNTRY_CODE',

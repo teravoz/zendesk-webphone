@@ -30,7 +30,7 @@ class Dialing extends React.Component {
     this.props.setAppHeight(290);
 
     this.props.teravoz.events.on('calling', () => {
-      this.props.changePage('');
+      this.props.changePage('calling');
     });
   }
 

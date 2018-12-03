@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { setAppHeight } from '../../actions'
 
+import { setAppHeight } from '../../actions/settings'
 import styles from './style.scss';
 import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';

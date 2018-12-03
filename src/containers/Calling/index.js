@@ -7,7 +7,7 @@ import classnames from 'classnames';
 
 
 import * as callingAnimation from '../../assets/calling-lottie.json';
-import { setAppHeight } from '../../actions'
+import { setAppHeight } from '../../actions/settings';
 
 import styles from './style.scss';
 import Dialform from '../../components/Dialform/index.js';

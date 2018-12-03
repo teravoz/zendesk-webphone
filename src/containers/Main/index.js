@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { changePage, setAppHeight } from '../../actions';
+import { changePage, setAppHeight } from '../../actions/settings';
 import Footer from '../../components/Footer';
 import IncomingRequest from '../IncomingRequest';
 import OngoingCall from '../OngoingCall';
