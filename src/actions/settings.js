@@ -21,9 +21,6 @@ export const setAppHeight = height => {
       return;
     }
     ZAF.client.invoke('resize', { width: '265px', height: (height) + 'px' });
-    // setInterval(() => {
-    //   ZAFClient.invoke('popover', 'toggle');
-    // }, 1000);
 }
 
 export const changePage = (page, data = {}) => ({
