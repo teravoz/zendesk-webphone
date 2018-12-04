@@ -1,33 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types';
 
-import { setAppHeight } from '../../actions/settings';
-import { changePage } from '../../actions/settings';
+import { changePage, setAppHeight } from '../../actions/settings';
+import { fetchProfileByNumber } from '../../actions/profile';
 import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';
 import styles from './style.scss';
 
-const mapStateToProps = ({ incoming, teravoz }) => ({
+const mapStateToProps = ({ incoming, profile, teravoz }) => ({
   incoming,
+  profile,
   teravoz
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setDefaults: () => dispatch(setAppHeight),
-  changePage: (page) => dispatch(changePage(page))
+  changePage: (page) => dispatch(changePage(page)),
+  fetchProfile: (number) => dispatch(fetchProfileByNumber(number)),
+  setDefaults: () => dispatch(setAppHeight)
 });
 
 class IncomingRequest extends Component {
 
   componentWillMount() {
-    this.props.setDefaults();
+    const { fetchProfile, incoming, setDefaults, teravoz } = this.props;
+    setDefaults();
 
-    this.props.teravoz.events.once('acceptedCall', this.onCallAccepted);
-    this.props.teravoz.events.once('hangup', this.onCallFinished);
-    this.props.teravoz.events.once('missedCall', this.onCallFinished);
-    this.props.teravoz.events.once('cleanup', this.onCallFinished);
+    teravoz.events.once('acceptedCall', this.onCallAccepted);
+    teravoz.events.once('hangup', this.onCallFinished);
+    teravoz.events.once('missedCall', this.onCallFinished);
+    teravoz.events.once('cleanup', this.onCallFinished);
+    fetchProfile(incoming.number);
   }
 
   onCallAccepted = () => {
@@ -47,20 +51,19 @@ class IncomingRequest extends Component {
   }
 
   render() {
+    const { profile } = this.props;
+    const { name, email, tags, photo } = profile;
+
     return (
-      <div>
-        <Profile
-          name="Enrico Alvarenga"
-          email="ealvarenga@teravoz.com.br"
-          tags={ [ 'Sem acordo', 'Não quer pagar', 'Enrico Manente Alvarenga' ] }
-        />
+      <Fragment>
+        <Profile { ...profile } />
         <CallButtons
           buttonSuccessLabel="Aceitar"
           buttonSuccessClick={ this.onAcceptCall }
           buttonRejectLabel="Rejeitar"
           buttonRejectClick={ this.onRejectCall }
         />
-      </div>
+      </Fragment>
     );
   }
 }

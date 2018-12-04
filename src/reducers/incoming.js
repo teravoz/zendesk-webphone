@@ -2,7 +2,7 @@ import { actions } from '../actions/incoming';
 
 const initialState = {
   actions: null,
-  number: ''
+  number: '012991143055' // TODO: set to an empty string
 }
 
 export default (state = initialState, action) => {
