@@ -10,7 +10,7 @@ import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';
 import CallStatus from '../../components/CallStatus';
 import Timer from '../../components/Timer';
-import Keyboard from '../../components/Keyboard';
+import Dialpad from '../../components/Dialpad';
 import DoubleArrowIcon from '../../components/Icons/DoubleArrow';
 import Toolbox from '../../components/Toolbox';
 import ToolboxItem from '../../components/ToolboxItem';
@@ -36,7 +36,13 @@ const mapDispatchToProps = (dispatch) => ({
 class OngoingCall extends Component {
 
   componentWillMount() {
-    this.props.setAppHeight(510);
+    this.props.setAppHeight(580);
+  }
+
+  onValueChanged = (number) => {
+  }
+
+  onCall = () => {
   }
 
   onHangUpClick = () => {
@@ -87,7 +93,11 @@ class OngoingCall extends Component {
           <ToolboxItem icon={ PhonePausedIcon } label="Pausar" onClick={ this.onHoldClick } disabled={ controls.hold } />
         </Toolbox>
 
-        <Keyboard classes={ styles.mt25 } visible={ true }/>
+        <Dialpad
+          onValueChanged={ this.onValueChanged }
+          onEnterPressed={ this.onCall }
+          readOnly={ true }
+        />
       </div>
     );
   }

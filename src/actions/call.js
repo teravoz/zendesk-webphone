@@ -1,3 +1,4 @@
+import { cleanupDialing } from './dialing';
 import { clearProfileInfo } from './profile';
 
 const START_CALL = 'START_CALL';
@@ -29,6 +30,7 @@ export const setIncomingActions = (actions) => ({
 });
 
 export const endCall = () => (dispatch) => {
+  dispatch(cleanupDialing());
   dispatch(clearProfileInfo());
   dispatch({ type: END_CALL });
 }

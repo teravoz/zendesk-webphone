@@ -1,41 +1,22 @@
 import { actions } from '../../actions/dialing';
 
 const initialState = {
-  isDialing: false,
-  number: '',
-  countryCode: null
+  error: null,
+  number: ''
 }
 
 const reducer = (state = initialState, action) => {
-  if (action.type === actions.SET_COUNTRY_CODE) {
-    return {
-      ...state,
-      countryCode: action.countryCode
-    }
-  }
+
   if (action.type === actions.SET_NUMBER) {
-    return {
-      ...state,
-      number: state.number ? `${state.number}${action.number}` : action.number
-    }
+    return { ...state, number: action.number  }
   }
 
-  if (action.type === actions.REMOVE_NUMBER) {
-    return {
-      ...state,
-      number: state.number ? state.number.substring(0, state.number.length - 1) : ''
-    }
+  else if (action.type === actions.SET_DIALING_ERROR) {
+    return { ...state, error: action.error };
   }
 
-  if (action.type === actions.SET_DIALING) {
-    return {
-      ...state,
-      isDialing: action.isDialing
-    }
-  }
-
-  if (action.type === actions.CLEANUP_DIALING) {
-    return initialState;
+  else if (action.type === actions.CLEANUP_DIALING) {
+    return { ...initialState };
   }
 
   return state;
