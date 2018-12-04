@@ -9,6 +9,7 @@ import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';
 import CallStatus from '../../components/CallStatus';
 import Timer from '../../components/Timer';
+import Keyboard from '../../components/Keyboard';
 import DoubleArrowIcon from '../../components/Icons/DoubleArrow';
 import Toolbox from '../../components/Toolbox';
 import ToolboxItem from '../../components/ToolboxItem';
@@ -44,7 +45,7 @@ class OngoingCall extends Component {
   }
 
   onKeyboardClick = () => {
-    console.log('open keyboard');
+    this.props.toggleKeyboard();
   }
 
   onHoldClick = () => {
@@ -91,6 +92,8 @@ class OngoingCall extends Component {
           <ToolboxItem icon={ MicrophoneIcon } label="Mute" onClick={ this.onMuteClick } disabled={ controls.mute } /> <VDivider />
           <ToolboxItem icon={ PhonePausedIcon } label="Pausar" onClick={ this.onHoldClick } disabled={ controls.hold } />
         </Toolbox>
+
+        { controls.keyboard && <Keyboard classes={ styles.mt25 } visible={ true }/> }
 
       </div>
     );
