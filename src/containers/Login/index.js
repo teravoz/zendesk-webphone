@@ -11,6 +11,23 @@ import styles from './style.scss';
 import Checkbox from '../../components/Checkbox';
 import ZAF from '../../misc/ZAFClient';
 
+const mapStateToProps = ({ login, teravoz }) => ({
+  ...login,
+  teravoz
+});
+
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators({ changePage,
+    setUsername,
+    setPassword,
+    setRemainConnected,
+    setRegistered,
+    setError,
+    setLoading
+  }, dispatch),
+  setAppHeight
+});
+
 class Login extends React.Component {
 
   text = 'Utilize a mesma senha cadastrada em seu ramal';
@@ -35,12 +52,12 @@ class Login extends React.Component {
       this.props.setLoading(false);
       this.props.changePage('dialing');
     });
-
   }
 
   componentDidMount() {
-    ZAF.getKey('peer').then((peer) => {
-      peer = JSON.parse(peer);
+    ZAF.getKey('peer').then((auth) => {
+
+      const peer = JSON.parse(auth);
       if (peer) {
         this.props.setUsername(peer.username);
         this.props.setPassword(peer.password);
@@ -50,8 +67,9 @@ class Login extends React.Component {
       this.props.setError({ message: 'Erro ao registrar usuário' });
     });
   }
-  
-  register() {
+
+  onRegister = () => {
+
     const { username, password } = this.props;
     const errors = { username: null, password: null };
 
@@ -70,16 +88,16 @@ class Login extends React.Component {
 
     this.props.teravoz.register({ username, password });
   }
-  
+
   onCheck() {
     this.setRemainConnected({ remainConnected: !this.props.remainConnected })
   }
 
-  setUsername(e) {
+  onUsernameChange = (e) => {
     this.props.setUsername(e.target.value);
   }
 
-  setPassword(e) {
+  onPasswordChange = (e) => {
     this.props.setPassword(e.target.value);
   }
 
@@ -89,7 +107,7 @@ class Login extends React.Component {
       <div className={ styles.login }>
         <div className={ styles.login__form }>
           <div className={ styles.login__form__item }>
-            <input onChange={ this.setUsername.bind(this) } type="text" placeholder="Ramal" />
+            <input onChange={ this.onUsernameChange } type="text" placeholder="Ramal" />
             { error && error.username ?
               <span className={ classnames(styles.login__form__item__info, styles.login__form__item__error) }>
                 { error.username }
@@ -97,8 +115,8 @@ class Login extends React.Component {
             }
           </div>
           <div className={ classnames(styles.login__form__item, styles.mt25) }>
-            <input onChange={ this.setPassword.bind(this) } type="password" placeholder="Senha" />
-            { 
+            <input onChange={ this.onPasswordChange } type="password" placeholder="Senha" />
+            {
               error && error.password  ?
               <span className={ classnames(styles.login__form__item__info, styles.login__form__item__error) }>
                 { error.password }
@@ -121,7 +139,7 @@ class Login extends React.Component {
           </div>
 
           <div className={ styles.login__form__item + ' ' + styles.mt30 }>
-            <button onClick={ this.register.bind(this) } className={ styles.login__form__item__button }> Acessar </button>
+            <button onClick={ this.onRegister } className={ styles.login__form__item__button }> Acessar </button>
           </div>
         </div>
       </div>
@@ -132,21 +150,6 @@ class Login extends React.Component {
 Login.propTypes = {
   action: PropTypes.string,
 };
-
-
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ changePage, 
-    setUsername, 
-    setPassword, 
-    setRemainConnected,
-    setRegistered, 
-    setError,
-    setLoading
-  }, dispatch),
-  setAppHeight
-});
-
-const mapStateToProps = ({ login, teravoz }) => ({ ...login, teravoz });
 
 export default connect(
   mapStateToProps,

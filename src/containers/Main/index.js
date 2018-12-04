@@ -1,7 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import ZAF from '../../misc/ZAFClient';
+import { setIncomingCall } from '../../actions/incoming';
 import { changePage, setAppHeight } from '../../actions/settings';
 import { setTeravozWebRTCHandler } from '../../actions/teravoz';
 import Footer from '../../components/Footer';
@@ -13,64 +15,62 @@ import Dialing from "../Dialing";
 import Calling from "../Calling";
 import Loading from "../Loading";
 
-class Main extends React.Component {
+const mapStateToProps = ({ settings, loading, login }) => ({
+  settings,
+  loading,
+  login
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  ...bindActionCreators({ changePage, setTeravozWebRTCHandler }, dispatch),
+  setIncomingCall: (...args) => dispatch(setIncomingCall(...args)),
+  setAppHeight
+});
+
+class Main extends Component {
 
   componentWillMount() {
-    this.props.setTeravozWebRTCHandler(this.props.teravoz);
+    const { changePage, setTeravozWebRTCHandler, teravoz, setIncomingCall } = this.props;
+    setTeravozWebRTCHandler(teravoz);
+
+    teravoz.events.on('incomingCall', ({ actions, theirNumber }) => {
+      setIncomingCall(actions, theirNumber);
+      changePage('incoming-request');
+      ZAF.client.invoke('popover', 'show');
+    });
   }
 
+  renderPage() {
+    const { settings, loading } = this.props;
+    const { page } = settings;
+    const { isLoading } = loading;
 
-  page = () => {
-    const { 
-      settings: { page }, 
-      loading: { isLoading },
-    } = this.props;
-
-    if (isLoading || page == 'loading') {
+    if (isLoading) {
       return (<Loading />);
     }
 
-    if (page == 'login') {
-      return (<Login />);
-    } 
-
-    if (page == 'ongoing-call') {
-      return (<OngoingCall />);
+    switch(page) {
+      case 'loading': return (<Loading />);
+      case 'ongoing-call': return (<OngoingCall />);
+      case 'incoming-request': return (<IncomingRequest />);
+      case 'dialing': return (<Dialing />);
+      case 'calling': return (<Calling />);
+      case 'login':
+      default: return (<Login />);
     }
-
-    if (page == 'incoming-request') {
-      return (<IncomingRequest />);
-    }
-
-    if (page == 'dialing') {
-      return (<Dialing />);
-    }
-
-    if (page == 'calling') {
-      return (<Calling />);
-    }
-
-    return (<Login />);
-  } 
+  }
 
   render() {
-      return (
-        <div>
+    return (
+      <div>
           <div className={ styles.content }>
-            <this.page />
+            { this.renderPage() }
           </div>
           <Footer />
         </div>
       );
   }
 }
-
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ changePage, setTeravozWebRTCHandler }, dispatch),
-  setAppHeight
-});
-
-const mapStateToProps = ({ settings, loading, login }) => ({ settings, loading, login });
 
 export default connect(
   mapStateToProps,

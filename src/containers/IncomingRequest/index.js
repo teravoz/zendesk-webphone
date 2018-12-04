@@ -1,52 +1,72 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types';
 
 import { setAppHeight } from '../../actions/settings';
+import { changePage } from '../../actions/settings';
 import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';
 import styles from './style.scss';
 
-class IncomingRequest extends React.Component {
+const mapStateToProps = ({ incoming, teravoz }) => ({
+  incoming,
+  teravoz
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setDefaults: () => dispatch(setAppHeight),
+  changePage: (page) => dispatch(changePage(page))
+});
+
+class IncomingRequest extends Component {
 
   componentWillMount() {
-    // Calculate the waiting time... provide an API to obtain these data.
+    this.props.setDefaults();
+
+    this.props.teravoz.events.once('acceptedCall', this.onCallAccepted);
+    this.props.teravoz.events.once('hangup', this.onCallFinished);
+    this.props.teravoz.events.once('missedCall', this.onCallFinished);
+    this.props.teravoz.events.once('cleanup', this.onCallFinished);
+  }
+
+  onCallAccepted = () => {
+    this.props.changePage('ongoing-call');
+  }
+
+  onCallFinished = () => {
+    this.props.changePage('dialing');
+  }
+
+  onAcceptCall = () => {
+    this.props.incoming.actions.accept();
+  }
+
+  onRejectCall = () => {
+    this.props.incoming.actions.decline();
   }
 
   render() {
     return (
       <div>
-        <Profile 
+        <Profile
           name="Enrico Alvarenga"
           email="ealvarenga@teravoz.com.br"
-          tags={ [ 'Sem acordo', 'Não quer pagar', 'Enrico Manente Alvarenga' ] } 
+          tags={ [ 'Sem acordo', 'Não quer pagar', 'Enrico Manente Alvarenga' ] }
         />
-        <CallButtons 
+        <CallButtons
           buttonSuccessLabel="Aceitar"
-          buttonSuccessClick={ () => console.log('enrico') }
+          buttonSuccessClick={ this.onAcceptCall }
           buttonRejectLabel="Rejeitar"
-          buttonRejectClick={ () => console.log() }
+          buttonRejectClick={ this.onRejectCall }
         />
       </div>
     );
   }
 }
 
-IncomingRequest.propTypes = {
-  action: PropTypes.string,
-};
-
-
-const mapDispatchToProps = dispatch => ({
-  // ...bindActionCreators({ resetStore }, dispatch),
-  setAppHeight
-});
-
-const mapStateToProps = ({ page }) => ({ page });
-
 export default connect(
-  null,
-  null
+  mapStateToProps,
+  mapDispatchToProps
 )(IncomingRequest);
 

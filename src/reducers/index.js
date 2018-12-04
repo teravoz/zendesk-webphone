@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
 
-import login from './login';
-import settings from './settings';
-import loading from './loading';
 import dialing from './dialing';
+import loading from './loading';
+import login from './login';
+import incoming from './incoming';
+import settings from './settings';
 import teravoz from './teravoz';
 
 export default combineReducers({
-  login,
-  settings,
-  loading,
   dialing,
+  loading,
+  login,
+  incoming,
+  settings,
   teravoz
 });
 
