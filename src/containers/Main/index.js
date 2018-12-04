@@ -53,7 +53,7 @@ class Main extends Component {
       case 'loading': return (<Loading />);
       case 'ongoing-call': return (<OngoingCall />);
       case 'incoming-request': return (<IncomingRequest />);
-      case 'dialing': return (<Dialing />);
+      case 'dialing': return (<OngoingCall />);
       case 'calling': return (<Calling />);
       case 'login':
       default: return (<Login />);
@@ -63,12 +63,12 @@ class Main extends Component {
   render() {
     return (
       <div>
-          <div className={ styles.content }>
-            { this.renderPage() }
-          </div>
-          <Footer />
+        <div className={ styles.content }>
+          { this.renderPage() }
         </div>
-      );
+        <Footer />
+      </div>
+    );
   }
 }
 
