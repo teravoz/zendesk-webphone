@@ -16,9 +16,11 @@ import Dialform from '../../components/Dialform';
 
 import { setAppHeight, changePage } from '../../actions/settings';
 import { setCountryCode, setDialing, setNumber, removeNumber } from '../../actions/dialing';
+import { startCall } from '../../actions/call';
 import { fetchProfileByNumber } from '../../actions/profile';
 import ToolboxItem from '../../components/ToolboxItem';
 import VDivider from '../../components/VDivider';
+import Dialpad from '../../components/Dialpad';
 
 class Dialing extends React.Component {
   
@@ -31,11 +33,12 @@ class Dialing extends React.Component {
 
   componentWillMount() {
     const { teravoz, setAppHeight, fetchProfileByNumber, changePage, number } = this.props;
-    setAppHeight(270);
-
+    setAppHeight(430);
     teravoz.events.once('calling', () => {
+      startCall('outgoing', 'dialing', this.props.number);
+      console.log('############', this.props.number);
+      fetchProfileByNumber(this.props.number);
       changePage('calling');
-      fetchProfileByNumber(number);
     });
   }
 
@@ -84,26 +87,28 @@ class Dialing extends React.Component {
   }
 
   setNumber(key) {
+    const { number, removeNumber, setNumber } = this.props;
     const valid = this.isDialpadValidChar(key);
-    if (this.props.number.length > 0 && key == 'Enter') {
+
+    if (number.length > 0 && key == 'Enter') {
       this.dial();
       return;
     }
 
     if (valid) {
       if (key == 'Backspace') {
-        this.props.removeNumber();
+        removeNumber();
       } else {
-        this.props.setNumber(key);
+        setNumber(key);
       }
     } 
   }
 
-  numberHandler(e) {
+  inputHandler(e) {
     this.setNumber(e.key);
   }
 
-  numberClickHandler = (value) => (e) => {
+  keyboardHandler = (value) => (e) => {
     this.setNumber(value);
   }
 
@@ -128,19 +133,18 @@ class Dialing extends React.Component {
   }
 
   render() {
+    const isDialing = this.props.call.status == 'dialing';
     return (
       <div className={ styles.dialing }>
-        <Dialform
-          classes={ styles.mt20 }
-          handler={ this.numberHandler.bind(this) }
+        <Dialpad 
+          inputHandler={ this.inputHandler.bind(this) }
+          keyboardHandler={ this.keyboardHandler.bind(this) }
           value={ this.props.number }
-          visible={ true }     
+          disabled={ isDialing }
         />
-        { this.renderToolbox() }
-        <Keyboard classes={ styles.mt25 } onClick={ this.numberClickHandler.bind(this) } visible={ this.state.keyboard }/>
         <div className={ styles.dialing__button }>
           <Button 
-            disabled={ !this.props.number }
+            disabled={ !this.props.number || isDialing }
             onClick={ this.dial.bind(this) }
             classes={ styles.dialing__button__size }
             primary={ true } 
@@ -158,11 +162,18 @@ Dialing.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ changePage, setCountryCode, setDialing, setNumber, removeNumber }, dispatch),
+  ...bindActionCreators({ changePage, 
+    setCountryCode, 
+    setDialing, 
+    setNumber, 
+    removeNumber,
+    fetchProfileByNumber,
+    startCall
+  }, dispatch),
   setAppHeight
 });
 
-const mapStateToProps = ({ settings, dialing, teravoz }) => ({ ...settings, ...dialing, teravoz });
+const mapStateToProps = ({ settings, dialing, teravoz, call }) => ({ ...settings, ...dialing, teravoz, call });
 
 export default connect(
   mapStateToProps,

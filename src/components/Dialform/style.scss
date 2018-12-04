@@ -61,14 +61,15 @@
 
       & input {
         @extend .typography;
-        padding-left: 8px;
         width: 100%;
         color: #000;
         border: 0;
         border-bottom: 2px solid rgba($color: #999, $alpha: .3);
         outline: none;
-        font-size: 22px;
+        font-size: 30px;
         text-align: center;
+        margin: 0 18px;
+        text-align: right;
 
         &:disabled {
           color: #bac0c3;
@@ -77,14 +78,14 @@
 
       & input::-webkit-input-placeholder {
         @extend .typography;
-        font-size: 22px;
+        font-size: 30px;
         text-align: center;
         font-weight: 300;
         color: #d1d1d1;
       } 
       & input::-ms-input-placeholder {
         @extend .typography;
-        font-size: 22px;
+        font-size: 26px;
         color: #d1d1d1;
       } 
       & input::-moz-placeholder {

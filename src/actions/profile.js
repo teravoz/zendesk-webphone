@@ -22,7 +22,7 @@ export const setProfileInfo = (name, email, tags, photo) => ({
 });
 
 export const fetchProfileByNumber = (number) => (dispatch) => {
-
+  console.log('>>>>>>>>>>', number);
   const qs = querystring.stringify({
     query: `type:user phone:${number}`
   });
@@ -32,7 +32,7 @@ export const fetchProfileByNumber = (number) => (dispatch) => {
     .client
     .request(`/api/v2/search.json?${qs}`)
     .then((response) => {
-      console.log('############### énrico');
+      console.log('#####', response);
       if (response.count > 0 && response.results.length > 0) {
         const user = response.results[0];
         return dispatch(setProfileInfo(

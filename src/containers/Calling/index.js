@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import * as callingAnimation from '../../assets/calling-lottie.json';
 import { setAppHeight, changePage } from '../../actions/settings';
 import { cleanupDialing } from '../../actions/dialing';
+import { changeStatus, endCall } from '../../actions/call';
 
 import styles from './style.scss';
 import Dialform from '../../components/Dialform/index.js';
@@ -46,16 +47,23 @@ class Calling extends Component {
   }
 
   componentWillMount() {
-    const { setAppHeight, teravoz, cleanupDialing, changePage } = this.props;
+    const { setAppHeight, teravoz, cleanupDialing, changePage, changeStatus, endCall } = this.props;
     teravoz.events.once('hangup', () => {
       changePage('dialing');
+      endCall();
+      cleanupDialing();
+    });
+    teravoz.events.once('cleanup', () => {
+      changePage('dialing');
+      endCall();
       cleanupDialing();
     });
     teravoz.events.once('acceptedCall', () => {
+      changeStatus('ongoing');
       changePage('ongoing-call');
     });
     teravoz.events.once('earlyMedia', () => {
-      // TODO: use the call action/reducer to change from dialing to calling.
+      changeStatus('calling');
     });
 
     setAppHeight(310);
@@ -145,11 +153,11 @@ Calling.propTypes = {
 
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ cleanupDialing, changePage }, dispatch),
+  ...bindActionCreators({ cleanupDialing, changePage, changeStatus, endCall }, dispatch),
   setAppHeight
 });
 
-const mapStateToProps = ({ teravoz, settings, dialing, profile }) => ({ teravoz, ...settings, dialing, profile });
+const mapStateToProps = ({ teravoz, settings, dialing, profile, call }) => ({ call, teravoz, ...settings, dialing, profile });
 
 export default connect(
   mapStateToProps,

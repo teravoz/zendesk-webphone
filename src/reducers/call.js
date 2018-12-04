@@ -1,7 +1,7 @@
 import { actions } from '../actions/call';
 
 const directions = ['incoming', 'outgoing'];
-const statuses = ['dialing', 'ongoing']; // Increment with the statuses
+const statuses = ['dialing', 'calling', 'ongoing']; // Increment with the statuses
 
 const initialState = {
   direction: '',
