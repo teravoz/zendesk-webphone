@@ -36,6 +36,9 @@ class Login extends React.Component {
       this.props.changePage('dialing');
     });
 
+  }
+
+  componentDidMount() {
     ZAF.getKey('peer').then((peer) => {
       peer = JSON.parse(peer);
       if (peer) {
@@ -143,7 +146,7 @@ const mapDispatchToProps = dispatch => ({
   setAppHeight
 });
 
-const mapStateToProps = ({ login }) => ({ ...login });
+const mapStateToProps = ({ login, teravoz }) => ({ ...login, teravoz });
 
 export default connect(
   mapStateToProps,

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import styles from './style.scss';
 
 const Button = (props) => {
-  props.size
   return (
-    <button className={ classnames(props.classes, styles.button, 
+    <button disabled={ props.disabled } onClick={ props.onClick } 
+      className={ classnames(props.classes, styles.button, 
       { [styles.button__primary]: props.primary }, 
       { [styles.button__transparent]: props.transparent }, 
       { [styles.button__medium]: props.medium }, 
@@ -23,7 +23,9 @@ const Button = (props) => {
 Button.propTypes = {
   classes: PropTypes.string,
   label: PropTypes.any.isRequired,
-  icon: PropTypes.node
+  onClick: PropTypes.func.isRequired,
+  icon: PropTypes.node,
+  disabled: PropTypes.bool
 }
 
 export default Button;

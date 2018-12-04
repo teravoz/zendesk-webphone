@@ -1,43 +1,21 @@
 import React, { Fragment } from "react";
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import teravozWebRTCAdapter from '@teravoz/react-webrtc-adapter';
 
-import { setWebRTCApiKey } from '../../actions/settings';
 import Main from "../Main";
-import styles from './style.scss';
 import Loading from "../Loading";
+import ZAF from '../../misc/ZAFClient';
+import styles from './style.scss';
 
-class Adapter extends React.Component {
 
-  componentWillMount() {
-    this.props.setWebRTCApiKey();
-  }
-  
-  render() {
-    if (!this.props.apiKey) {
-      return null;
-    }
+export default function () {
+  return ZAF.client.metadata()
+    .then((data) => {
+      const { settings } = data;
+      const WrappedComponent = teravozWebRTCAdapter(Main, { 
+        apiKey: settings.api_key,
+        loadingComponent: <Loading />,
+      });
 
-    const WrappedComponent = teravozWebRTCAdapter(Main, { 
-      apiKey: this.props.apiKey,
-      loadingComponent: <Loading />,
+      return (<div className={ styles.adapter }><WrappedComponent /></div>);
     });
-    return (
-      <div className={ styles.adapter }>
-        <WrappedComponent />
-      </div>
-    )
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ setWebRTCApiKey }, dispatch),
-});
-
-const mapStateToProps = ({ settings }) => ({ ...settings });
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Adapter);
+};

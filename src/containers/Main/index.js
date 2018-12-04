@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { changePage, setAppHeight } from '../../actions/settings';
+import { setTeravozWebRTCHandler } from '../../actions/teravoz';
 import Footer from '../../components/Footer';
 import IncomingRequest from '../IncomingRequest';
 import OngoingCall from '../OngoingCall';
@@ -15,10 +16,7 @@ import Loading from "../Loading";
 class Main extends React.Component {
 
   componentWillMount() {
-
-    this.props.teravoz.events.on('incomingCall', (payload) => {
-
-    });
+    this.props.setTeravozWebRTCHandler(this.props.teravoz);
   }
 
 
@@ -26,7 +24,6 @@ class Main extends React.Component {
     const { 
       settings: { page }, 
       loading: { isLoading },
-      login: { registered }
     } = this.props;
 
     if (isLoading || page == 'loading') {
@@ -34,7 +31,7 @@ class Main extends React.Component {
     }
 
     if (page == 'login') {
-      return (<Login teravoz={ this.props.teravoz }/>);
+      return (<Login />);
     } 
 
     if (page == 'ongoing-call') {
@@ -46,14 +43,14 @@ class Main extends React.Component {
     }
 
     if (page == 'dialing') {
-      return (<Dialing teravoz={ this.props.teravoz } />);
+      return (<Dialing />);
     }
 
     if (page == 'calling') {
       return (<Calling />);
     }
 
-    return (<Login teravoz={ this.props.teravoz } />);
+    return (<Login />);
   } 
 
   render() {
@@ -69,7 +66,7 @@ class Main extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ changePage }, dispatch),
+  ...bindActionCreators({ changePage, setTeravozWebRTCHandler }, dispatch),
   setAppHeight
 });
 

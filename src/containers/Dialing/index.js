@@ -15,7 +15,7 @@ import Keyboard from '../../components/Keyboard';
 import Dialform from '../../components/Dialform';
 
 import { setAppHeight, changePage } from '../../actions/settings';
-import { setCountryCode, setDialing, setNumber } from '../../actions/dialing';
+import { setCountryCode, setDialing, setNumber, disableDialing } from '../../actions/dialing';
 
 class Dialing extends React.Component {
   
@@ -63,13 +63,21 @@ class Dialing extends React.Component {
     this.props.setCountryCode(value);
   }
 
+  dial(e) {
+    console.log('>>>');
+    this.props.teravoz.dial({
+      numberTo: this.props.number,
+      error: this.props.setError
+    });
+  }
+
   render() {
     return (
       <div className={ styles.dialing }>
         <Dialform
           classes={ styles.mt20 }
-          numberHandler={ this.numberHandler }
-          countryCodeHandler={ this.countryCodeHandler }
+          numberHandler={ this.numberHandler.bind(this) }
+          countryCodeHandler={ this.countryCodeHandler.bind(this) }
           visible={ true }     
         />
         <Toolbox 
@@ -99,6 +107,8 @@ class Dialing extends React.Component {
         <Keyboard classes={ styles.mt25 } visible={ this.state.keyboard }/>
         <div className={ styles.dialing__button }>
           <Button 
+            disabled={ !this.props.number }
+            onClick={ this.dial.bind(this) }
             classes={ styles.dialing__button__size }
             primary={ true } 
             label="Ligar" 
@@ -119,7 +129,7 @@ const mapDispatchToProps = dispatch => ({
   setAppHeight
 });
 
-const mapStateToProps = ({ settings, dialing }) => ({ ...settings, ...dialing });
+const mapStateToProps = ({ settings, dialing, teravoz }) => ({ ...settings, ...dialing, teravoz });
 
 export default connect(
   mapStateToProps,
