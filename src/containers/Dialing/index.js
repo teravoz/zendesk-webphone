@@ -15,7 +15,7 @@ import Keyboard from '../../components/Keyboard';
 import Dialform from '../../components/Dialform';
 
 import { setAppHeight, changePage } from '../../actions/settings';
-import { setCountryCode, setDialing, setNumber, disableDialing } from '../../actions/dialing';
+import { setCountryCode, setDialing, setNumber, removeNumber } from '../../actions/dialing';
 
 class Dialing extends React.Component {
   
@@ -55,16 +55,47 @@ class Dialing extends React.Component {
     this.setState({ contacts: !contacts });
   }
 
-  numberHandler(e) {
-    this.props.setNumber(e.target.value);
+  isDialpadValidChar(key) {
+    switch(key) {
+      case '#':
+      case '*':
+      case '+':
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '0':
+      case 'Backspace':
+        return true;
+    }
   }
 
-  countryCodeHandler(value) {
-    this.props.setCountryCode(value);
+  setNumber(key) {
+    const valid = this.isDialpadValidChar(key);
+    if (valid) {
+      if (key == 'Backspace') {
+        this.props.removeNumber();
+      } else {
+        this.props.setNumber(key);
+      }
+    }
+  }
+
+  numberHandler(e) {
+    this.setNumber(e.key);
+  }
+
+  numberClickHandler = (value) => (e) => {
+    this.setNumber(value);
   }
 
   dial(e) {
-    console.log('>>>');
     this.props.teravoz.dial({
       numberTo: this.props.number,
       error: this.props.setError
@@ -77,7 +108,7 @@ class Dialing extends React.Component {
         <Dialform
           classes={ styles.mt20 }
           numberHandler={ this.numberHandler.bind(this) }
-          countryCodeHandler={ this.countryCodeHandler.bind(this) }
+          defaultNumberValue={ this.props.number }
           visible={ true }     
         />
         <Toolbox 
@@ -86,25 +117,28 @@ class Dialing extends React.Component {
               icon: KeyboardIcon, 
               label: 'Teclado', 
               handler: this.keyboard.bind(this), 
-              disabled: this.state.keyboard 
+              disabled: this.state.keyboard,
+              cancelHandler: false
             },
             { 
               icon: UserIcon, 
               label: 'Contatos', 
               handler: this.contacts.bind(this), 
-              disabled: this.state.contacts  
+              disabled: this.state.contacts ,
+              cancelHandler: false 
             },
             { icon: TransferIcon, 
               label: 'Histórico', 
               handler: this.history.bind(this), 
-              disabled: this.state.history 
+              disabled: this.state.history,
+              cancelHandler: false
             }
           ]}
           classes={ styles.mt40 }
           visible={ true } 
           setAppHeight={ () => {} } 
         />
-        <Keyboard classes={ styles.mt25 } visible={ this.state.keyboard }/>
+        <Keyboard classes={ styles.mt25 } onClick={ this.numberClickHandler.bind(this) } visible={ this.state.keyboard }/>
         <div className={ styles.dialing__button }>
           <Button 
             disabled={ !this.props.number }
@@ -125,7 +159,7 @@ Dialing.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ changePage, setCountryCode, setDialing, setNumber }, dispatch),
+  ...bindActionCreators({ changePage, setCountryCode, setDialing, setNumber, removeNumber }, dispatch),
   setAppHeight
 });
 

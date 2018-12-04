@@ -29,5 +29,5 @@ HOC().then((Component) => {
     <Provider store={ store }>
       <Loading text={ error } />
     </Provider>
-), document.getElementById('app'));
+  ), document.getElementById('app'));
 });

@@ -24,7 +24,7 @@ class Toolbox extends React.Component {
     return icons.map((item, i) => {
       return (
         <Fragment>
-          <div className={ styles.toolbox__items } onClick={ item.disabled ? null : item.handler }>
+          <div className={ styles.toolbox__items } onClick={ item.disabled && item.cancelHandler ? null : item.handler }>
             <div className={ classnames(styles.toolbox__icon) }>
               <item.icon color={ item.disabled ? '#d3d3d3' : null }/>
             </div>
@@ -59,7 +59,8 @@ Toolbox.propTypes = {
     label: PropTypes.string.isRequired,
     icon: PropTypes.func.isRequired,
     handler: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired
+    disabled: PropTypes.bool.isRequired,
+    cancelHandler: PropTypes.bool.isRequired,
   })).isRequired,
   visible: PropTypes.bool.isRequired,
   classes: PropTypes.string

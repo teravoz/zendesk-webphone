@@ -13,11 +13,17 @@ const reducer = (state = initialState, action) => {
       countryCode: action.countryCode
     }
   }
-
   if (action.type === actions.SET_NUMBER) {
     return {
       ...state,
-      number: action.number
+      number: state.number ? `${state.number}${action.number}` : action.number
+    }
+  }
+
+  if (action.type === actions.REMOVE_NUMBER) {
+    return {
+      ...state,
+      number: state.number ? state.number.substring(0, state.number.length - 1) : null
     }
   }
 
@@ -26,6 +32,10 @@ const reducer = (state = initialState, action) => {
       ...state,
       isDialing: action.isDialing
     }
+  }
+
+  if (action.type === actions.CLEANUP_DIALING) {
+    return initialState;
   }
 
   return state;

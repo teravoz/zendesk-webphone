@@ -8,6 +8,7 @@ import classnames from 'classnames';
 
 import * as callingAnimation from '../../assets/calling-lottie.json';
 import { setAppHeight } from '../../actions/settings';
+import { cleanupDialing } from '../../actions/dialing';
 
 import styles from './style.scss';
 import Dialform from '../../components/Dialform/index.js';
@@ -40,12 +41,17 @@ class Calling extends React.Component {
     }
   }
 
-  numberHandler(e) {
-    console.log(e.target.value);
-  }
+  componentWillMount() {
+    this.props.teravoz.events.on('hangup', () => {
+      debugger;
+      console.log('HANGUP');
+      this.props.cleanupDialing();
+      this.props.changePage('dialing');
+    });
 
-  countryCodeHandler(value) {
-    console.log(value);
+    this.props.teravoz.events.once('acceptedCall', () => {
+      this.props.changePage('ongoing-call');
+    });
   }
 
   keyboard() {
@@ -76,13 +82,12 @@ class Calling extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <div className={ styles.calling }>
         <Dialform 
           classes={ styles.mt20 }
-          numberHandler={ this.numberHandler }
-          countryCodeHandler={ this.countryCodeHandler }
-          defaultNumberValue="011940289846"
+          defaultNumberValue={ this.props.dialing.number }
           disabled={ true }
           visible={ true }
         />
@@ -112,17 +117,20 @@ class Calling extends React.Component {
                 icon: KeyboardIcon, 
                 label: 'Teclado', 
                 handler: this.keyboard.bind(this), 
+                cancelHandler: true,
                 disabled: true
               },
               { 
                 icon: UserIcon, 
                 label: 'Contatos', 
                 handler: this.contacts.bind(this), 
+                cancelHandler: true,
                 disabled: true  
               },
               { icon: TransferIcon, 
                 label: 'Histórico', 
                 handler: this.history.bind(this), 
+                cancelHandler: true,
                 disabled: true
               }
             ]}
@@ -149,13 +157,13 @@ Calling.propTypes = {
 
 
 const mapDispatchToProps = dispatch => ({
-  // ...bindActionCreators({ resetStore }, dispatch),
+  ...bindActionCreators({ cleanupDialing }, dispatch),
   setAppHeight
 });
 
-const mapStateToProps = ({ page }) => ({ page });
+const mapStateToProps = ({ teravoz, settings, dialing }) => ({ teravoz, ...settings, dialing });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Calling);
