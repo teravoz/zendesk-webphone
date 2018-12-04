@@ -34,13 +34,14 @@ export const fetchProfileByNumber = (number) => (dispatch) => {
     .then((response) => {
       if (response.count > 0 && response.results.length > 0) {
         const user = response.results[0];
-        dispatch(setProfileInfo(
+        return dispatch(setProfileInfo(
           user.name,
           user.email,
           user.tags,
           user.photo && user.photo.content_url
         ));
       }
+      dispatch(clearProfileInfo());
     })
     .catch(() => dispatch(clearProfileInfo()));;
 };
