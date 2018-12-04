@@ -9,14 +9,14 @@ import AcceptIcon from '../../components/Icons/Accept';
     <div className={ styles.incoming__info }>
       <CallStatus status="waiting" />
       <CallTimer classes={ styles.mt7 } time="00:10:01" destination="Comercial" />
-    </div> 
+    </div>
   */
 
 
 const CallButtons = (props) => {
 
   let center = '';
-  if (props.slot) {
+  if (props.children) {
     center = styles.center;
   }
 
@@ -39,7 +39,7 @@ const CallButtons = (props) => {
           { props.buttonSuccessLabel }
         </span>
       </div>
-      { props.slot ? props.slot : null }
+      { props.children ? props.children : null }
       <div className={ styles.callbutton__item }>
         <div onClick={ props.buttonRejectClick } className={ styles.callbutton__icon + ' ' + styles.callbutton__icon__decline } >
           <HangupIcon />
@@ -59,7 +59,7 @@ CallButtons.propTypes = {
   buttonRejectLabel: PropTypes.string.isRequired,
   buttonRejectTheme: PropTypes.string,
   buttonRejectClick: PropTypes.func.isRequired,
-  slot: PropTypes.node
+  children: PropTypes.node
 }
 
 export default CallButtons;

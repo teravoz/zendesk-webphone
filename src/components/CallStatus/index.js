@@ -26,18 +26,18 @@ const CallStatus = (props) => {
 
     if (props.action && props.status == 'ongoing') {
       colors[1] = styles.callstatus__grey;
-      texts[1] = `(${props.action})`;
-    }  
+      texts[1] = props.action && props.action.length > 0 && `(${props.action})`;
+    }
 
     return (
       <div className={ styles.callstatus }>
-       { 
-         colors.length == 2 ? 
+       {
+         colors.length == 2 ?
           (
             <div className={ styles.callstatus__vertical }>
               <span className={ colors[0] }> { texts[0] } </span>
-              <span className={ colors[1] }> { (texts[1]) } </span> 
-            </div> 
+              <span className={ colors[1] }> { (texts[1]) } </span>
+            </div>
           ) : <span className={ colors[0] }> { texts[0] } </span>
        }
       </div>
@@ -46,7 +46,7 @@ const CallStatus = (props) => {
 
 CallStatus.propTypes = {
   status: PropTypes.string.isRequired,
-  action: PropTypes.string
+  action: PropTypes.array
 }
 
 export default CallStatus;
