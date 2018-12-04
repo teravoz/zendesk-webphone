@@ -1,5 +1,9 @@
 @import '../../stylesheets/all.scss';
 
+.calling_lottie {
+  height: 90% !important;
+}
+
 .callingperson {
   width: 100%;
   padding: 0 20px;
@@ -22,12 +26,13 @@
     }
 
     &__animation {
+      margin-bottom: 10px;
       position: relative;
 
 
       & span {
         position: absolute;
-        top: 61px;
+        top: 48px;
         left: 24px;
         @extend .typography;
         font-size: 9px;

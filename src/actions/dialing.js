@@ -2,13 +2,15 @@ export const actions = {
   SET_NUMBER: 'SET_NUMBER',
   SET_COUNTRY_CODE: 'SET_COUNTRY_CODE',
   SET_DIALING: 'SET_DIALING',
-  DISABLE_DIALING: 'DISABLE_DIALING'
+  DISABLE_DIALING: 'DISABLE_DIALING',
+  REMOVE_NUMBER: 'REMOVE_NUMBER',
+  CLEANUP_DIALING: 'CLEANUP_DIALING'
 }
 
 export const setNumber = (number) => dispatch => {
   dispatch({
     type: actions.SET_NUMBER,
-    number,
+    number
   });
 };
 
@@ -26,12 +28,14 @@ export const setDialing = (dialing) => dispatch => {
   });
 };
 
-export const disableDialing = (countryCode, number) => dispatch => {
-
-  
-
+export const removeNumber = () => dispatch => {
   dispatch({
-    type: actions.DISABLE_DIALING,
-    disabled: disable 
+    type: actions.REMOVE_NUMBER
+  });
+};
+
+export const cleanupDialing = () => dispatch => {
+  dispatch({
+    type: actions.CLEANUP_DIALING
   });
 };
