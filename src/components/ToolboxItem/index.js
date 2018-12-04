@@ -21,7 +21,7 @@ const ToolboxItem =  (props) => {
 };
 
 ToolboxItem.propTypes = {
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   icon: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
