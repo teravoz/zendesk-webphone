@@ -1,4 +1,5 @@
 const START_CALL = 'START_CALL';
+const SET_INCOMING_ACTIONS = 'SET_INCOMING_ACTIONS';
 const END_CALL = 'END_CALL';
 const CHANGE_STATUS = 'CHANGE_STATUS';
 const TOGGLE_KEYBOARD = 'TOGGLE_KEYBOARD';
@@ -7,6 +8,7 @@ const TOGGLE_MUTE = 'TOGGLE_MUTE';
 
 export const actions = {
   START_CALL,
+  SET_INCOMING_ACTIONS,
   END_CALL,
   CHANGE_STATUS,
   TOGGLE_KEYBOARD,
@@ -19,6 +21,11 @@ export const startCall = (direction, status, number) => ({
   direction,
   status,
   number
+});
+
+export const setIncomingActions = (actions) => ({
+  type: SET_INCOMING_ACTIONS,
+  actions
 });
 
 export const endCall = () => ({

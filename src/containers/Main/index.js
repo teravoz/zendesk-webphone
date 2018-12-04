@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ZAF from '../../misc/ZAFClient';
-import { setIncomingCall } from '../../actions/incoming';
+import { startCall, setIncomingActions } from '../../actions/call';
 import { changePage, setAppHeight } from '../../actions/settings';
 import { setTeravozWebRTCHandler } from '../../actions/teravoz';
 import Footer from '../../components/Footer';
@@ -23,18 +23,21 @@ const mapStateToProps = ({ settings, loading, login }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({ changePage, setTeravozWebRTCHandler }, dispatch),
-  setIncomingCall: (...args) => dispatch(setIncomingCall(...args)),
+  startIncomingCall: (actions, number) => {
+    dispatch(startCall('incoming', 'ringing', number));
+    dispatch(setIncomingActions(actions));
+  },
   setAppHeight
 });
 
 class Main extends Component {
 
   componentWillMount() {
-    const { changePage, setTeravozWebRTCHandler, teravoz, setIncomingCall } = this.props;
+    const { changePage, setTeravozWebRTCHandler, teravoz, startIncomingCall } = this.props;
     setTeravozWebRTCHandler(teravoz);
 
     teravoz.events.on('incomingCall', ({ actions, theirNumber }) => {
-      setIncomingCall(actions, theirNumber);
+      startIncomingCall(actions, theirNumber);
       changePage('incoming-request');
       ZAF.client.invoke('popover', 'show');
     });
@@ -53,7 +56,7 @@ class Main extends Component {
       case 'loading': return (<Loading />);
       case 'ongoing-call': return (<OngoingCall />);
       case 'incoming-request': return (<IncomingRequest />);
-      case 'dialing': return (<OngoingCall />);
+      case 'dialing': return (<Dialing />);
       case 'calling': return (<Calling />);
       case 'login':
       default: return (<Login />);

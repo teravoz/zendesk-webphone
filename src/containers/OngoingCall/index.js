@@ -39,6 +39,10 @@ class OngoingCall extends Component {
     this.props.setAppHeight(290);
   }
 
+  onHangUpClick = () => {
+    this.props.teravoz.hangup();
+  }
+
   onKeyboardClick = () => {
     console.log('open keyboard');
   }
@@ -75,7 +79,7 @@ class OngoingCall extends Component {
           buttonSuccessLabel="Aceitar"
           buttonSuccessTheme="disabled"
           buttonRejectLabel="Desligar"
-          buttonRejectClick={ () => console.log('rejeitar') }>
+          buttonRejectClick={ this.onHangUpClick }>
           <div className={ styles.ongoing__fixed }>
             <CallStatus status="ongoing" action={ this.getControlStatuses() } />
             <Timer classes={ styles.mt5 } />

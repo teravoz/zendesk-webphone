@@ -1,7 +1,7 @@
 import { actions } from '../actions/call';
 
 const directions = ['incoming', 'outgoing'];
-const statuses = ['dialing', 'ongoing']; // Increment with the statuses
+const statuses = ['ringing', 'dialing', 'ongoing']; // Increment with the statuses
 
 const initialState = {
   direction: '',
@@ -12,12 +12,16 @@ const initialState = {
     hold: false,
     mute: false,
   },
+  incoming: {
+    actions : {}
+  },
   number: ''
 }
 
 export default (state = initialState, action) => {
   switch(action.type) {
     case actions.START_CALL: return startCall(state, action);
+    case actions.SET_INCOMING_ACTIONS: return setIncomingActions(state, action);
     case actions.END_CALL: return endCall(state);
     case actions.CHANGE_STATUS: return changeStatus(state, action);
     case actions.TOGGLE_KEYBOARD: return toggleKeyboard(state);
@@ -35,11 +39,18 @@ function startCall(state, action) {
   return { ...state, direction, status, number };
 }
 
+function setIncomingActions(state, { actions }) {
+  return { ...state, incoming: { actions } };
+}
+
 function endCall(state) {
-  return { ...state, direction: '', status: '', number: '' };
+  return { ...state, ...initialState };
 }
 
 function changeStatus(state, action) {
+  if (statuses.indexOf(action.status) === -1) {
+    return state;
+  }
   return { ...state, status: action.status };
 }
 
