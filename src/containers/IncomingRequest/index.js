@@ -1,52 +1,75 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types';
 
-import { setAppHeight } from '../../actions/settings';
+import { changePage, setAppHeight } from '../../actions/settings';
+import { fetchProfileByNumber } from '../../actions/profile';
 import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';
 import styles from './style.scss';
 
-class IncomingRequest extends React.Component {
+const mapStateToProps = ({ incoming, profile, teravoz }) => ({
+  incoming,
+  profile,
+  teravoz
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changePage: (page) => dispatch(changePage(page)),
+  fetchProfile: (number) => dispatch(fetchProfileByNumber(number)),
+  setDefaults: () => dispatch(setAppHeight)
+});
+
+class IncomingRequest extends Component {
 
   componentWillMount() {
-    // Calculate the waiting time... provide an API to obtain these data.
+    const { fetchProfile, incoming, setDefaults, teravoz } = this.props;
+    setDefaults();
+
+    teravoz.events.once('acceptedCall', this.onCallAccepted);
+    teravoz.events.once('hangup', this.onCallFinished);
+    teravoz.events.once('missedCall', this.onCallFinished);
+    teravoz.events.once('cleanup', this.onCallFinished);
+    fetchProfile(incoming.number);
+  }
+
+  onCallAccepted = () => {
+    this.props.changePage('ongoing-call');
+  }
+
+  onCallFinished = () => {
+    this.props.changePage('dialing');
+  }
+
+  onAcceptCall = () => {
+    this.props.incoming.actions.accept();
+  }
+
+  onRejectCall = () => {
+    this.props.incoming.actions.decline();
   }
 
   render() {
+    const { profile } = this.props;
+    const { name, email, tags, photo } = profile;
+
     return (
-      <div>
-        <Profile 
-          name="Enrico Alvarenga"
-          email="ealvarenga@teravoz.com.br"
-          tags={ [ 'Sem acordo', 'Não quer pagar', 'Enrico Manente Alvarenga' ] } 
-        />
-        <CallButtons 
+      <Fragment>
+        <Profile { ...profile } />
+        <CallButtons
           buttonSuccessLabel="Aceitar"
-          buttonSuccessClick={ () => console.log('enrico') }
+          buttonSuccessClick={ this.onAcceptCall }
           buttonRejectLabel="Rejeitar"
-          buttonRejectClick={ () => console.log() }
+          buttonRejectClick={ this.onRejectCall }
         />
-      </div>
+      </Fragment>
     );
   }
 }
 
-IncomingRequest.propTypes = {
-  action: PropTypes.string,
-};
-
-
-const mapDispatchToProps = dispatch => ({
-  // ...bindActionCreators({ resetStore }, dispatch),
-  setAppHeight
-});
-
-const mapStateToProps = ({ page }) => ({ page });
-
 export default connect(
-  null,
-  null
+  mapStateToProps,
+  mapDispatchToProps
 )(IncomingRequest);
 
