@@ -8,7 +8,7 @@ const ToolboxItem =  (props) => {
   const { disabled, label, onClick } = props;
   return (
     <Fragment>
-      <div className={ styles.toolbox_item } onClick={ onClick }>
+      <div className={ styles.toolbox_item } onClick={ disabled && props.cancelHandler ? null : onClick }>
         <div className={ classnames(styles.toolbox_item__icon) }>
           <props.icon color={ (disabled && '#d3d3d3') || null }/>
         </div>
@@ -24,7 +24,8 @@ ToolboxItem.propTypes = {
   disabled: PropTypes.bool,
   icon: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  cancelHandler: PropTypes.bool
 };
 
 export default ToolboxItem;

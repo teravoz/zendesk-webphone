@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 25px;
     &__size {
       width: 135px;
     }
@@ -84,15 +84,16 @@
         padding-left: 8px;
         color: #000;
         border: 0;
+        font-size: 26px;
         border-bottom: 2px solid rgba($color: #999, $alpha: .3);
         outline: none;
-        font-size: 22px;
+        margin: 0 18px;
       }
 
       & input::-webkit-input-placeholder {
         @extend .typography;
-        font-size: 14px;
-        font-weight: 100;
+        font-size: 26px;
+        font-weight: 200;
         color: #d1d1d1;
       } 
       & input::-ms-input-placeholder {
