@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { setAppHeight } from '../../actions/settings'
-import { changeStatus, endCall, toggleKeyboard, toggleHold, toggleMute } from '../../actions/call';
+import { changeStatus, endCall, toggleHold, toggleMute } from '../../actions/call';
 import styles from './style.scss';
 import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';
@@ -13,7 +14,6 @@ import Keyboard from '../../components/Keyboard';
 import DoubleArrowIcon from '../../components/Icons/DoubleArrow';
 import Toolbox from '../../components/Toolbox';
 import ToolboxItem from '../../components/ToolboxItem';
-import KeyboardIcon from '../../components/Icons/KeyboardIcon';
 import MicrophoneIcon from '../../components/Icons/Microphone';
 import PhonePausedIcon from '../../components/Icons/PhonePaused';
 import TransferIcon from '../../components/Icons/Transfer';
@@ -28,7 +28,6 @@ const mapStateToProps = ({ call, profile, teravoz }) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeStatus: (...args) => dispatch(changeStatus(...args)),
   endCall: () => dispatch(endCall),
-  toggleKeyboard: () => dispatch(toggleKeyboard()),
   toggleHold: () => dispatch(toggleHold()),
   toggleMute: () => dispatch(toggleMute()),
   setAppHeight
@@ -37,15 +36,11 @@ const mapDispatchToProps = (dispatch) => ({
 class OngoingCall extends Component {
 
   componentWillMount() {
-    this.props.setAppHeight(290);
+    this.props.setAppHeight(510);
   }
 
   onHangUpClick = () => {
     this.props.teravoz.hangup();
-  }
-
-  onKeyboardClick = () => {
-    this.props.toggleKeyboard();
   }
 
   onHoldClick = () => {
@@ -87,14 +82,12 @@ class OngoingCall extends Component {
           </div>
         </CallButtons>
 
-        <Toolbox classes={ styles.mt15 }>
-          <ToolboxItem icon={ KeyboardIcon } label="Teclado" onClick={ this.onKeyboardClick } disabled={ controls.keyboard } /> <VDivider />
+        <Toolbox classes={ classNames(styles.mt30, styles.mb30) }>
           <ToolboxItem icon={ MicrophoneIcon } label="Mute" onClick={ this.onMuteClick } disabled={ controls.mute } /> <VDivider />
           <ToolboxItem icon={ PhonePausedIcon } label="Pausar" onClick={ this.onHoldClick } disabled={ controls.hold } />
         </Toolbox>
 
-        { controls.keyboard && <Keyboard classes={ styles.mt25 } visible={ true }/> }
-
+        <Keyboard classes={ styles.mt25 } visible={ true }/>
       </div>
     );
   }

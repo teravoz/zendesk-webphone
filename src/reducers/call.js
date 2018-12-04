@@ -7,8 +7,6 @@ const initialState = {
   direction: '',
   status: '',
   controls: {
-    it: false,
-    keyboard: false,
     hold: false,
     mute: false,
   },
@@ -24,7 +22,6 @@ export default (state = initialState, action) => {
     case actions.SET_INCOMING_ACTIONS: return setIncomingActions(state, action);
     case actions.END_CALL: return endCall(state);
     case actions.CHANGE_STATUS: return changeStatus(state, action);
-    case actions.TOGGLE_KEYBOARD: return toggleKeyboard(state);
     case actions.TOGGLE_HOLD: return toggleHold(state);
     case actions.TOGGLE_MUTE: return toggleMute(state);
     default: return state;
@@ -56,11 +53,6 @@ function changeStatus(state, action) {
 
 function toggleHold(state) {
   const controls = { ...state.controls, hold: !state.controls.hold };
-  return { ...state, controls };
-}
-
-function toggleKeyboard(state) {
-  const controls = { ...state.controls, keyboard: !state.controls.keyboard };
   return { ...state, controls };
 }
 

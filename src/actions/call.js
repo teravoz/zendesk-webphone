@@ -1,8 +1,9 @@
+import { clearProfileInfo } from './profile';
+
 const START_CALL = 'START_CALL';
 const SET_INCOMING_ACTIONS = 'SET_INCOMING_ACTIONS';
 const END_CALL = 'END_CALL';
 const CHANGE_STATUS = 'CHANGE_STATUS';
-const TOGGLE_KEYBOARD = 'TOGGLE_KEYBOARD';
 const TOGGLE_HOLD = 'TOGGLE_HOLD';
 const TOGGLE_MUTE = 'TOGGLE_MUTE';
 
@@ -11,7 +12,6 @@ export const actions = {
   SET_INCOMING_ACTIONS,
   END_CALL,
   CHANGE_STATUS,
-  TOGGLE_KEYBOARD,
   TOGGLE_HOLD,
   TOGGLE_MUTE
 };
@@ -28,17 +28,14 @@ export const setIncomingActions = (actions) => ({
   actions
 });
 
-export const endCall = () => ({
-  type: END_CALL
-});
+export const endCall = () => (dispatch) => {
+  dispatch(clearProfileInfo());
+  dispatch({ type: END_CALL });
+}
 
 export const changeStatus = (status) => ({
   type: CHANGE_STATUS,
   status
-});
-
-export const toggleKeyboard = () => ({
-  type: TOGGLE_KEYBOARD
 });
 
 export const toggleHold = () => (dispatch, getState) => {
