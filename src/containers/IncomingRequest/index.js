@@ -38,7 +38,7 @@ class IncomingRequest extends Component {
   }
 
   onCallAccepted = () => {
-    this.props.changeStatus('calling');
+    this.props.changeStatus('ongoing');
     this.props.changePage('ongoing-call');
   }
 
