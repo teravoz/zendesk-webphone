@@ -32,6 +32,7 @@ export const fetchProfileByNumber = (number) => (dispatch) => {
     .client
     .request(`/api/v2/search.json?${qs}`)
     .then((response) => {
+      console.log('############### énrico');
       if (response.count > 0 && response.results.length > 0) {
         const user = response.results[0];
         return dispatch(setProfileInfo(

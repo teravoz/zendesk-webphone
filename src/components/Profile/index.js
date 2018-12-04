@@ -1,25 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+
 import styles from './style.scss';
 import profileIcon from '../../assets/profile.svg';
 
 const Profile = ({ name, email, tags, photo, dark }) => {
 
-    let center = '';
-    if (tags && tags.length > 0) {
-      center = styles.center;
-    }
     let theme = {
       single: styles.profile__info__tags__single,
       title: styles.profile__info__tags__title
     };
     if (dark) {
-      theme.single = styles.profile__info__tags__single + ' ' + styles.profile__info__tags__single__dark;
-      theme.title = styles.profile__info__tags__title  + ' ' + styles.profile__info__tags__title__dark;
+      theme.single = classnames(styles.profile__info__tags__single, styles.profile__info__tags__single__dark);
+      theme.title = classnames(styles.profile__info__tags__title, styles.profile__info__tags__title__dark);
     }
 
     return (
-      <div className={ styles.profile + ' ' + center }>
+      <div className={ classnames(styles.profile, { [styles.center]: tags && tags.length > 0 }) }>
         <img src={ photo || profileIcon } alt="callee-profile" className={ styles.profile__img } />
         <div className={ styles.profile__info } >
           <span className={ styles.profile__info__name } > { name || 'Unknown' } </span>

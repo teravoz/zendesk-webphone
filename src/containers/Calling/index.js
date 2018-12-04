@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Lottie from 'react-lottie';
@@ -7,7 +7,7 @@ import classnames from 'classnames';
 
 
 import * as callingAnimation from '../../assets/calling-lottie.json';
-import { setAppHeight } from '../../actions/settings';
+import { setAppHeight, changePage } from '../../actions/settings';
 import { cleanupDialing } from '../../actions/dialing';
 
 import styles from './style.scss';
@@ -19,8 +19,11 @@ import UserIcon from '../../components/Icons/UserIcon';
 import TransferIcon from '../../components/Icons/Transfer';
 import HangupIcon from '../../components/Icons/Hangup';
 import profileIcon from '../../assets/profile.svg';
+import Picture from '../../components/Picture/index.js';
+import ToolboxItem from '../../components/ToolboxItem/index.js';
+import VDivider from '../../components/VDivider/index.js';
 
-class Calling extends React.Component {
+class Calling extends Component {
   state = {
     animation: {
       stopped: false,
@@ -37,21 +40,29 @@ class Calling extends React.Component {
     autoplay: true, 
     animationData: callingAnimation.default,
     rendererSettings: {
+      className: styles.calling_lottie,
       preserveAspectRatio: 'xMidYMid slice'
     }
   }
 
   componentWillMount() {
-    this.props.teravoz.events.on('hangup', () => {
-      debugger;
-      console.log('HANGUP');
-      this.props.cleanupDialing();
-      this.props.changePage('dialing');
+    const { setAppHeight, teravoz, cleanupDialing, changePage } = this.props;
+    teravoz.events.once('hangup', () => {
+      changePage('dialing');
+      cleanupDialing();
+    });
+    teravoz.events.once('acceptedCall', () => {
+      changePage('ongoing-call');
+    });
+    teravoz.events.once('earlyMedia', () => {
+      // TODO: use the call action/reducer to change from dialing to calling.
     });
 
-    this.props.teravoz.events.once('acceptedCall', () => {
-      this.props.changePage('ongoing-call');
-    });
+    setAppHeight(310);
+  }
+
+  hangup() {
+    this.props.teravoz.hangup();
   }
 
   keyboard() {
@@ -75,74 +86,51 @@ class Calling extends React.Component {
     this.setState({ contacts: !contacts });
   }
 
-  
-  componentWillMount() {
-    // Calculate the waiting time... provide an API to obtain these data.
-    this.props.setAppHeight(310);
+  renderPictures() {
+    const { profile: { photo, name } } = this.props;
+    return (
+      <div className={ styles.callingperson }>
+        <Picture name="Teravoz" />
+        <div className={ styles.callingperson__profile__animation }>
+          <Lottie 
+            options={ this.defaultOptions }
+            height={ 80 }
+            width={ 100 }
+            isStopped={ this.state.animation.stopped }
+            isPaused={ this.state.animation.paused }
+          />
+          <span> Chamando </span>
+        </div>
+        <Picture name={ name || 'Unknown' } photo={ photo }/>
+      </div>
+    );
+  }
+
+  renderToolbox() {
+    return (
+      <Toolbox visible={ true } setAppHeight={ this.props.setAppHeight } >
+        <ToolboxItem cancelHandler={ true } icon={ KeyboardIcon } label="Teclado" onClick={ this.keyboard.bind(this) } disabled={ true } /> 
+        <VDivider />
+        <ToolboxItem cancelHandler={ true } icon={ UserIcon } label="Contatos" onClick={ this.contacts.bind(this) } disabled={ true } /> 
+        <VDivider />
+        <ToolboxItem cancelHandler={ true } icon={ TransferIcon } label="Histórico" onClick={ this.history.bind(this) } disabled={ true } />
+      </Toolbox>
+    );
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className={ styles.calling }>
-        <Dialform 
-          classes={ styles.mt20 }
-          defaultNumberValue={ this.props.dialing.number }
-          disabled={ true }
-          visible={ true }
-        />
-        <div className={ styles.callingperson }>
-          <div className={ styles.callingperson__profile__item }>
-            <img src={ profileIcon } alt="callee-profile" className={ styles.callingperson__img } />
-            <span> Teravoz </span>
-          </div>
-            <div className={ styles.callingperson__profile__animation }>
-              <Lottie 
-              options={ this.defaultOptions }
-              height={ 100 }
-              width={ 100 }
-              isStopped={ this.state.animation.stopped }
-              isPaused={ this.state.animation.paused }
-              />
-              <span> Chamando </span>
-            </div>
-          <div className={ styles.callingperson__profile__item }>
-            <img src={ profileIcon } alt="callee-profile" className={ styles.callingperson__img } />
-            <span> Teravoz </span>
-          </div>
-        </div>
-        <Toolbox 
-            icons={[
-              { 
-                icon: KeyboardIcon, 
-                label: 'Teclado', 
-                handler: this.keyboard.bind(this), 
-                cancelHandler: true,
-                disabled: true
-              },
-              { 
-                icon: UserIcon, 
-                label: 'Contatos', 
-                handler: this.contacts.bind(this), 
-                cancelHandler: true,
-                disabled: true  
-              },
-              { icon: TransferIcon, 
-                label: 'Histórico', 
-                handler: this.history.bind(this), 
-                cancelHandler: true,
-                disabled: true
-              }
-            ]}
-            visible={ true } 
-            setAppHeight={ () => {} } 
-          />
+        <Dialform classes={ styles.mt20 } value={ this.props.dialing.number } disabled={ true } />
+        { this.renderPictures() }
+        { this.renderToolbox() }
         <div className={ classnames(styles.calling__button, styles.mt30) }>
           <Button 
             transparent={ true } 
             medium={ true }
             red={ true }
             label="Cancelar" 
+            onClick={ this.hangup.bind(this) }
             icon={ <HangupIcon color='#d6002b' /> }
           />
         </div>
@@ -157,11 +145,11 @@ Calling.propTypes = {
 
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ cleanupDialing }, dispatch),
+  ...bindActionCreators({ cleanupDialing, changePage }, dispatch),
   setAppHeight
 });
 
-const mapStateToProps = ({ teravoz, settings, dialing }) => ({ teravoz, ...settings, dialing });
+const mapStateToProps = ({ teravoz, settings, dialing, profile }) => ({ teravoz, ...settings, dialing, profile });
 
 export default connect(
   mapStateToProps,

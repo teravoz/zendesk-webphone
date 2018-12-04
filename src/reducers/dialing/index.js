@@ -2,7 +2,7 @@ import { actions } from '../../actions/dialing';
 
 const initialState = {
   isDialing: false,
-  number: null,
+  number: '',
   countryCode: null
 }
 
@@ -23,7 +23,7 @@ const reducer = (state = initialState, action) => {
   if (action.type === actions.REMOVE_NUMBER) {
     return {
       ...state,
-      number: state.number ? state.number.substring(0, state.number.length - 1) : null
+      number: state.number ? state.number.substring(0, state.number.length - 1) : ''
     }
   }
 

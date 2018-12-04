@@ -16,6 +16,9 @@ import Dialform from '../../components/Dialform';
 
 import { setAppHeight, changePage } from '../../actions/settings';
 import { setCountryCode, setDialing, setNumber, removeNumber } from '../../actions/dialing';
+import { fetchProfileByNumber } from '../../actions/profile';
+import ToolboxItem from '../../components/ToolboxItem';
+import VDivider from '../../components/VDivider';
 
 class Dialing extends React.Component {
   
@@ -27,20 +30,24 @@ class Dialing extends React.Component {
   }
 
   componentWillMount() {
-    this.props.setAppHeight(290);
+    const { teravoz, setAppHeight, fetchProfileByNumber, changePage, number } = this.props;
+    setAppHeight(270);
 
-    this.props.teravoz.events.on('calling', () => {
-      this.props.changePage('calling');
+    teravoz.events.once('calling', () => {
+      changePage('calling');
+      fetchProfileByNumber(number);
     });
   }
+
+
 
   keyboard() {
     let { keyboard } = this.state;
     keyboard = !keyboard;
     if (keyboard) {
-      this.props.setAppHeight(290 + 230);
+      this.props.setAppHeight(270 + 230);
     } else {
-      this.props.setAppHeight(290);
+      this.props.setAppHeight(270);
     }
     this.setState({ keyboard });
   }
@@ -78,13 +85,18 @@ class Dialing extends React.Component {
 
   setNumber(key) {
     const valid = this.isDialpadValidChar(key);
+    if (this.props.number.length > 0 && key == 'Enter') {
+      this.dial();
+      return;
+    }
+
     if (valid) {
       if (key == 'Backspace') {
         this.props.removeNumber();
       } else {
         this.props.setNumber(key);
       }
-    }
+    } 
   }
 
   numberHandler(e) {
@@ -95,11 +107,24 @@ class Dialing extends React.Component {
     this.setNumber(value);
   }
 
-  dial(e) {
+
+  dial() {
     this.props.teravoz.dial({
       numberTo: this.props.number,
       error: this.props.setError
     });
+  }
+
+  renderToolbox() {
+    return (
+      <Toolbox visible={ true } setAppHeight={ () => {} } classes={ styles.mt40 }>
+        <ToolboxItem cancelHandler={ false } icon={ KeyboardIcon } label="Teclado" onClick={ this.keyboard.bind(this) } disabled={ this.state.keyboard } /> 
+        <VDivider />
+        <ToolboxItem cancelHandler={ false } icon={ UserIcon } label="Contatos" onClick={ this.contacts.bind(this) } disabled={ this.state.contacts } /> 
+        <VDivider />
+        <ToolboxItem cancelHandler={ false } icon={ TransferIcon } label="Histórico" onClick={ this.history.bind(this) } disabled={ this.state.history } />
+      </Toolbox>
+    );
   }
 
   render() {
@@ -107,37 +132,11 @@ class Dialing extends React.Component {
       <div className={ styles.dialing }>
         <Dialform
           classes={ styles.mt20 }
-          numberHandler={ this.numberHandler.bind(this) }
-          defaultNumberValue={ this.props.number }
+          handler={ this.numberHandler.bind(this) }
+          value={ this.props.number }
           visible={ true }     
         />
-        <Toolbox 
-          icons={[
-            { 
-              icon: KeyboardIcon, 
-              label: 'Teclado', 
-              handler: this.keyboard.bind(this), 
-              disabled: this.state.keyboard,
-              cancelHandler: false
-            },
-            { 
-              icon: UserIcon, 
-              label: 'Contatos', 
-              handler: this.contacts.bind(this), 
-              disabled: this.state.contacts ,
-              cancelHandler: false 
-            },
-            { icon: TransferIcon, 
-              label: 'Histórico', 
-              handler: this.history.bind(this), 
-              disabled: this.state.history,
-              cancelHandler: false
-            }
-          ]}
-          classes={ styles.mt40 }
-          visible={ true } 
-          setAppHeight={ () => {} } 
-        />
+        { this.renderToolbox() }
         <Keyboard classes={ styles.mt25 } onClick={ this.numberClickHandler.bind(this) } visible={ this.state.keyboard }/>
         <div className={ styles.dialing__button }>
           <Button 

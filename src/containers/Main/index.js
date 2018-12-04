@@ -63,12 +63,12 @@ class Main extends Component {
   render() {
     return (
       <div>
-          <div className={ styles.content }>
-            { this.renderPage() }
-          </div>
-          <Footer />
+        <div className={ styles.content }>
+          { this.renderPage() }
         </div>
-      );
+        <Footer />
+      </div>
+    );
   }
 }
 
