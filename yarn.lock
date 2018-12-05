@@ -704,10 +704,10 @@
     humps "^2.0.1"
     prop-types "^15.5.10"
 
-"@teravoz/react-webrtc-adapter@^0.1.0-beta.0":
-  version "0.1.0-beta.0"
-  resolved "https://registry.yarnpkg.com/@teravoz/react-webrtc-adapter/-/react-webrtc-adapter-0.1.0-beta.0.tgz#975f7008fa2ce31966b5feee9db21055ef8cf0bc"
-  integrity sha512-vWln0e3EO5eZ5PNTgo15Dpq9sFa1Yd1W+KpWfPf4jfD6YcQCO7IFIoBrmfsmba1N93c9n/HKNg8W3i7ExmjD9A==
+"@teravoz/react-webrtc-adapter@^0.2.0-beta":
+  version "0.2.0-beta"
+  resolved "https://registry.yarnpkg.com/@teravoz/react-webrtc-adapter/-/react-webrtc-adapter-0.2.0-beta.tgz#81afd7ad05955cab58bb117cd74e4b7a7c03ecf1"
+  integrity sha512-tFT+B/gol2YQ4Ki2/p0+4UcbNCR3QSQN1ZvKRo25ClU49pOrxHRSoso+CwJcJMQ04M2oslYoUgJo8Tw/bimlQw==
   dependencies:
     eventemitter3 "^3.1.0"
     prop-types "^15.6.2"
@@ -5031,9 +5031,9 @@ sax@^1.2.4, sax@~1.2.1:
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
 scheduler@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.11.2.tgz#a8db5399d06eba5abac51b705b7151d2319d33d3"
-  integrity sha512-+WCP3s3wOaW4S7C1tl3TEXp4l9lJn0ZK8G3W3WKRWmw77Z2cIFUW2MiNTMHn5sCjxN+t7N43HAOOgMjyAg5hlg==
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.11.3.tgz#b5769b90cf8b1464f3f3cfcafe8e3cd7555a2d6b"
+  integrity sha512-i9X9VRRVZDd3xZw10NY5Z2cVMbdYg6gqFecfj79USv1CFN+YrJ3gIPRKf1qlY+Sxly4djoKdfx1T+m9dnRB8kQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
