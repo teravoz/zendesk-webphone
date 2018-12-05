@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+import Photo from '../Photo';
 import styles from './style.scss';
-import profileIcon from '../../assets/profile.svg';
 
 const Profile = ({ name, email, tags, photo, dark }) => {
 
@@ -18,7 +18,7 @@ const Profile = ({ name, email, tags, photo, dark }) => {
 
     return (
       <div className={ classnames(styles.profile, { [styles.center]: tags && tags.length > 0 }) }>
-        <img src={ photo || profileIcon } alt="callee-profile" className={ styles.profile__img } />
+        <Photo photoUrl={ photo } />
         <div className={ styles.profile__info } >
           <span className={ styles.profile__info__name } > { name || 'Unknown' } </span>
           <span className={ styles.profile__info__email } > { email || 'No e-mail' }</span>

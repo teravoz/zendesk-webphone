@@ -39,11 +39,11 @@ class OngoingCall extends Component {
     this.props.setAppHeight(580);
   }
 
-  onValueChanged = (number) => {
+  onValueChanged = (tone) => {
+    this.props.teravoz.sendTone(tone);;
   }
 
-  onCall = () => {
-  }
+  onCall = () => {}
 
   onHangUpClick = () => {
     this.props.teravoz.hangup();

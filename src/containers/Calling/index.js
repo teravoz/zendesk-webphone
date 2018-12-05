@@ -17,7 +17,7 @@ import UserIcon from '../../components/Icons/UserIcon';
 import TransferIcon from '../../components/Icons/Transfer';
 import HangupIcon from '../../components/Icons/Hangup';
 import profileIcon from '../../assets/profile.svg';
-import Picture from '../../components/Picture/index.js';
+import NamedPhoto from '../../components/NamedPhoto/index.js';
 import VDivider from '../../components/VDivider/index.js';
 
 const mapStateToProps = ({ call, profile, teravoz }) => ({
@@ -79,7 +79,7 @@ class Calling extends Component {
     const { profile: { photo, name } } = this.props;
     return (
       <div className={ styles.callingperson }>
-        <Picture name="Teravoz" />
+        <NamedPhoto name="Teravoz" />
         <div className={ styles.callingperson__profile__animation }>
           <Lottie
             options={ this.defaultOptions }
@@ -90,7 +90,7 @@ class Calling extends Component {
           />
           <span> Chamando </span>
         </div>
-        <Picture name={ name || 'Unknown' } photo={ photo }/>
+        <NamedPhoto name={ name || 'Unknown' } photoUrl={ photo }/>
       </div>
     );
   }
