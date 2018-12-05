@@ -53,7 +53,7 @@ class Dialing extends React.Component {
 
     if (dialing.number.length > 0) {
       teravoz.events.once('calling', () => {
-        const number = this.props.dialing.number;
+        const number = dialing.number;
         startCall('outgoing', 'dialing', number);
         fetchProfileByNumber(number);
         changePage('calling');
@@ -77,7 +77,7 @@ class Dialing extends React.Component {
         <div className={ styles.dialing__button }>
           <Button
             disabled={ !this.props.dialing.number || isDialing }
-            onClick={ this.onCall }
+            onClick={ () => this.onCall() }
             classes={ styles.dialing__button__size }
             primary={ true }
             label="Ligar"

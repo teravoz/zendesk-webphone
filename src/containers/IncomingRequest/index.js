@@ -28,7 +28,7 @@ class IncomingRequest extends Component {
 
   componentWillMount() {
     const { fetchProfile, call, setAppHeight, teravoz } = this.props;
-    setAppHeight();
+    setAppHeight(200);
 
     teravoz.events.once('acceptedCall', this.onCallAccepted);
     teravoz.events.once('hangup', this.onCallFinished);

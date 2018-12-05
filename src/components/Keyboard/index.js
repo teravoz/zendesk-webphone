@@ -34,7 +34,6 @@ const Keyboard = (props) => {
 }
 
 Keyboard.propTypes = {
-  setAppHeight: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   classes: PropTypes.string,
