@@ -33,8 +33,8 @@ const mapDispatchToProps = dispatch => ({
     setDialingError,
     setNumber,
     fetchProfileByNumber,
-    startCall
   }, dispatch),
+  startCall: (...args) => dispatch(startCall(...args)),
   setAppHeight
 });
 
@@ -49,12 +49,13 @@ class Dialing extends React.Component {
   }
 
   onCall = () => {
-    const { changePage, dialing, fetchProfileByNumber, setDialingError, teravoz } = this.props;
+    const { changePage, dialing, fetchProfileByNumber, setDialingError, startCall, teravoz } = this.props;
 
     if (dialing.number.length > 0) {
       teravoz.events.once('calling', () => {
-        startCall('outgoing', 'dialing', dialing.number);
-        fetchProfileByNumber(dialing.number);
+        const number = this.props.dialing.number;
+        startCall('outgoing', 'dialing', number);
+        fetchProfileByNumber(number);
         changePage('calling');
       });
       teravoz.dial({

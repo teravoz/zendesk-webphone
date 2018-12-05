@@ -20,7 +20,7 @@ import profileIcon from '../../assets/profile.svg';
 import Picture from '../../components/Picture/index.js';
 import VDivider from '../../components/VDivider/index.js';
 
-const mapStateToProps = ({ teravoz, profile, call }) => ({
+const mapStateToProps = ({ call, profile, teravoz }) => ({
   call,
   profile,
   teravoz
@@ -96,10 +96,9 @@ class Calling extends Component {
   }
 
   render() {
-    console.log(this.props.call);
     return (
       <div className={ styles.calling }>
-        <Dialform classes={ styles.mt20 } value={ this.props.call.number } disabled={ true } />
+        <Dialform classes={ styles.mt30 } value={ this.props.call.number } disabled={ true } />
         { this.renderPictures() }
         <div className={ classnames(styles.calling__button, styles.mt30) }>
           <Button
