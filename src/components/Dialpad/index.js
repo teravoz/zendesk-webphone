@@ -49,7 +49,7 @@ class Dialpad extends Component {
         value = this.state.value + key;
       }
       this.setState({ value });
-      this.props.onValueChanged && this.props.onValueChanged(value);
+      this.props.onValueChanged && this.props.onValueChanged(value, key);
     }
   }
 

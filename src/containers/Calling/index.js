@@ -52,7 +52,7 @@ class Calling extends Component {
 
   componentWillMount() {
     const { setAppHeight, teravoz, changePage, changeStatus, endCall } = this.props;
-    teravoz.events.once('hangup', () => {
+    teravoz.events.once('hangUp', () => {
       changePage('dialing');
       endCall();
     });
@@ -72,7 +72,7 @@ class Calling extends Component {
   }
 
   hangup() {
-    this.props.teravoz.hangup();
+    this.props.teravoz.hangUp();
   }
 
   renderPictures() {

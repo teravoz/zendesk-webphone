@@ -58,10 +58,8 @@ class Dialing extends React.Component {
         fetchProfileByNumber(number);
         changePage('calling');
       });
-      teravoz.dial({
-        numberTo: dialing.number,
-        error: setDialingError
-      });
+      teravoz.events.once('dialError', setDialingError);
+      teravoz.dial(dialing.number);
     }
   }
 

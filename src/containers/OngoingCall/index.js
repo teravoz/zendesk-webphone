@@ -39,14 +39,14 @@ class OngoingCall extends Component {
     this.props.setAppHeight(580);
   }
 
-  onValueChanged = (tone) => {
-    this.props.teravoz.sendTone(tone);;
+  onValueChanged = (value, tone) => {
+    this.props.teravoz.sendDTMF(tone);;
   }
 
   onCall = () => {}
 
   onHangUpClick = () => {
-    this.props.teravoz.hangup();
+    this.props.teravoz.hangUp();
   }
 
   onHoldClick = () => {

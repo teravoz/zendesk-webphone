@@ -31,9 +31,9 @@ class IncomingRequest extends Component {
     setAppHeight(200);
 
     teravoz.events.once('acceptedCall', this.onCallAccepted);
-    teravoz.events.once('hangup', this.onCallFinished);
+    teravoz.events.once('hangUp', this.onCallFinished);
     teravoz.events.once('missedCall', this.onCallFinished);
-    teravoz.events.once('cleanup', this.onCallFinished);
+    teravoz.events.once('cleanUp', this.onCallFinished);
     fetchProfile(call.number);
   }
 

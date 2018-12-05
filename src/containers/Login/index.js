@@ -59,9 +59,10 @@ class Login extends React.Component {
 
       const peer = JSON.parse(auth);
       if (peer) {
-        this.props.setUsername(peer.username);
-        this.props.setPassword(peer.password);
-        this.props.teravoz.register(peer);
+        const { username, password } = peer;
+        this.props.setUsername(username);
+        this.props.setPassword(password);
+        this.props.teravoz.register(username, password);
       }
     }).catch((error) => {
       this.props.setError({ message: 'Erro ao registrar usuário' });
@@ -86,7 +87,7 @@ class Login extends React.Component {
       return;
     }
 
-    this.props.teravoz.register({ username, password });
+    this.props.teravoz.register(username, password);
   }
 
   onCheck() {

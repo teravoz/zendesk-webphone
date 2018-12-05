@@ -36,7 +36,7 @@ class Main extends Component {
     const { changePage, setTeravozWebRTCHandler, teravoz, startIncomingCall } = this.props;
     setTeravozWebRTCHandler(teravoz);
 
-    teravoz.events.on('incomingCall', ({ actions, theirNumber }) => {
+    teravoz.events.on('incomingCall', (theirNumber, actions) => {
       startIncomingCall(actions, theirNumber);
       changePage('incoming-request');
       ZAF.client.invoke('popover', 'show');
