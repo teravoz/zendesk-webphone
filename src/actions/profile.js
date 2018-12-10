@@ -40,7 +40,13 @@ export const fetchProfileByNumber = (number) => (dispatch) => {
           user.photo && user.photo.content_url
         ));
       }
-      dispatch(clearProfileInfo());
+
+      dispatch(setProfileInfo(
+        number,
+        `${number}@teravoz-integracao.com`,
+        [],
+        null
+      ));
     })
     .catch(() => dispatch(clearProfileInfo()));;
 };

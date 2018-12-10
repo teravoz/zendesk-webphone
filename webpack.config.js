@@ -41,6 +41,10 @@ module.exports = (env) => {
     module: {
       rules: [
         {
+          test: /\.mp3$/,
+          loader: 'file-loader'
+        },
+        {
           test: [
             /\.bmp$/, 
             /\.gif$/, 

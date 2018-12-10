@@ -10,24 +10,24 @@ const Keyboard = (props) => {
   return (
     <div className={ classnames(styles.keyboard, props.classes, { [styles.keyboard__invisible]: !props.visible }) }>
       <div className={ styles.keyboard__block }>
-        <Digit onClick={ props.onClick } digit="1" letters="" />
-        <Digit onClick={ props.onClick } digit="2" letters="ABC" />
-        <Digit onClick={ props.onClick } digit="3" letters="DEF" />
+        <Digit key={ 1 } onClick={ props.onClick } digit="1" letters="" />
+        <Digit key={ 2 } onClick={ props.onClick } digit="2" letters="ABC" />
+        <Digit key={ 3 } onClick={ props.onClick } digit="3" letters="DEF" />
       </div>
       <div className={ classnames(styles.keyboard__block, styles.keyboard__top) }>
-        <Digit onClick={ props.onClick } digit="4" letters="GHI" />
-        <Digit onClick={ props.onClick } digit="5" letters="JKL" />
-        <Digit onClick={ props.onClick } digit="6" letters="MNO" />
+        <Digit key={ 4 } onClick={ props.onClick } digit="4" letters="GHI" />
+        <Digit key={ 5 } onClick={ props.onClick } digit="5" letters="JKL" />
+        <Digit key={ 6 } onClick={ props.onClick } digit="6" letters="MNO" />
       </div>
       <div className={ classnames(styles.keyboard__block, styles.keyboard__top) }>
-        <Digit onClick={ props.onClick } digit="7" letters="PQRS" />
-        <Digit onClick={ props.onClick } digit="8" letters="TUV" />
-        <Digit onClick={ props.onClick } digit="9" letters="WXYZ" />
+        <Digit key={ 7 } onClick={ props.onClick } digit="7" letters="PQRS" />
+        <Digit key={ 8 } onClick={ props.onClick } digit="8" letters="TUV" />
+        <Digit key={ 9 } onClick={ props.onClick } digit="9" letters="WXYZ" />
       </div>
       <div className={ classnames(styles.keyboard__block, styles.keyboard__top) }>
-        <Digit onClick={ props.onClick } digit="*" letters="" />
-        <Digit onClick={ props.onClick } digit="0" letters="+" />
-        <Digit onClick={ props.onClick } digit="#" letters="" />
+        <Digit key="asterisk" onClick={ props.onClick } digit="*" letters="" />
+        <Digit key={ 0 } onClick={ props.onClick } digit="0" letters="+" />
+        <Digit key="hashtag" onClick={ props.onClick } digit="#" letters="" />
       </div>
   </div>
   );

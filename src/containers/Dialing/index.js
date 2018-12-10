@@ -5,22 +5,15 @@ import PropTypes from 'prop-types';
 
 import styles from './style.scss';
 
-import Toolbox from '../../components/Toolbox';
-import KeyboardIcon from '../../components/Icons/KeyboardIcon';
-import UserIcon from '../../components/Icons/UserIcon';
-import TransferIcon from '../../components/Icons/Transfer';
 import Button from '../../components/Button';
 import AcceptIcon from '../../components/Icons/Accept';
-import Keyboard from '../../components/Keyboard';
-import Dialform from '../../components/Dialform';
 
 import { setAppHeight, changePage } from '../../actions/settings';
 import { setDialingError, setNumber } from '../../actions/dialing';
 import { startCall } from '../../actions/call';
 import { fetchProfileByNumber } from '../../actions/profile';
-import ToolboxItem from '../../components/ToolboxItem';
-import VDivider from '../../components/VDivider';
 import Dialpad from '../../components/Dialpad';
+import getTones from '../../misc/digit-tones';
 
 const mapStateToProps = ({ call, dialing, teravoz }) => ({
   call,
@@ -40,17 +33,25 @@ const mapDispatchToProps = dispatch => ({
 
 class Dialing extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.audio = getTones();
+  }
+
   componentWillMount() {
     this.props.setAppHeight(430);
   }
 
-  onValueChanged = (number) => {
+  onValueChanged = (number, key) => {
+    if (key !== 'Backspace' && key !== 'Enter') {
+      this.audio[key].play();
+    }
     this.props.setNumber(number);
   }
 
   onCall = () => {
     const { changePage, dialing, fetchProfileByNumber, setDialingError, startCall, teravoz } = this.props;
-
     if (dialing.number.length > 0) {
       teravoz.events.once('calling', () => {
         const number = dialing.number;

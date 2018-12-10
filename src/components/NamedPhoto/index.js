@@ -8,7 +8,7 @@ const NamedPhoto = (props) => {
   return (
     <div className={ styles.namedphoto }>
       <Photo { ...props} />
-      <span> { props.name } </span>
+      <span> { props.name.length > 10 ? `${props.name.substring(0, 10)}` : props.name } </span>
     </div>
   );
 }

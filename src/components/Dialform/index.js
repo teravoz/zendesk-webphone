@@ -24,11 +24,12 @@ class Dialform extends Component{
         <div className={ styles.dialform__form__item }>
           <input
             value={ this.props.value }
+            onChange={ () => {} }
             disabled={ this.props.disabled }
             onKeyDown={ this.props.handler }
             className={ styles.dialform__form__item__number }
             type="text"
-            ref={this.textInput}
+            ref={ this.textInput }
             placeholder={ this.props.placeholder || 'Insira o número' } />
         </div>
       </div>

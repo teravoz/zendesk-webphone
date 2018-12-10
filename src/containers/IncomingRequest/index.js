@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import PropTypes from 'prop-types';
 
 import { changeStatus, endCall } from '../../actions/call';
 import { fetchProfileByNumber } from '../../actions/profile';
 import { changePage, setAppHeight } from '../../actions/settings';
 import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';
-import styles from './style.scss';
+
+import ringing from '../../assets/audio/phone/ringing.mp3';
 
 const mapStateToProps = ({ call, profile, teravoz }) => ({
   call,
@@ -29,6 +28,11 @@ class IncomingRequest extends Component {
   componentWillMount() {
     const { fetchProfile, call, setAppHeight, teravoz } = this.props;
     setAppHeight(200);
+
+    // Setting the ringing audio defaults;
+    this.ringing = new Audio(ringing);
+    this.ringing.play();
+    this.ringing.loop = true;
 
     teravoz.events.once('acceptedCall', this.onCallAccepted);
     teravoz.events.once('hangUp', this.onCallFinished);
@@ -55,10 +59,13 @@ class IncomingRequest extends Component {
     this.props.call.incoming.actions.decline();
   }
 
+  componentWillUnmount() {
+    this.ringing.pause();
+    this.ringing = null;
+  }
+
   render() {
     const { profile } = this.props;
-    const { name, email, tags, photo } = profile;
-
     return (
       <Fragment>
         <Profile { ...profile } />

@@ -24,7 +24,7 @@ export const setError = (error) => dispatch => {
 }
 
 export const setRegistered = (registered) => dispatch => {
-  dispatch({ type: actions, registered });
+  dispatch({ type: actions.SET_REGISTERED, registered });
 }
 
 

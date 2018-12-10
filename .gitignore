@@ -1,6 +1,11 @@
 app/assets/bundle.js
 app/assets/bundle.js.map
 app/assets/app.css
+app/assets/*.mp3
+app/assets/*.*.mp3
 app/assets/app.css.map
 node_modules
 .DS_Store
+.env
+*.log
+

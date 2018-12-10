@@ -11,8 +11,9 @@ import styles from './style.scss';
 import Checkbox from '../../components/Checkbox';
 import ZAF from '../../misc/ZAFClient';
 
-const mapStateToProps = ({ login, teravoz }) => ({
+const mapStateToProps = ({ login, teravoz, settings }) => ({
   ...login,
+  settings,
   teravoz
 });
 
@@ -35,26 +36,39 @@ class Login extends React.Component {
 
   componentWillMount() {
     this.props.setAppHeight(290);
+  }
+  
+  registerListener = () => {
+    const { username, password, remainConnected } = this.props;
+    if (remainConnected) {
+      ZAF.setKey('peer', JSON.stringify({ username, password }));
+    }
+    this.props.setLoading(false);
+    this.props.changePage('dialing');
+  }
 
-    this.props.teravoz.events.on('registering', (payload) => {
+  componentDidMount() {
+    this.props.teravoz.events.once('registering', () => {
       this.props.setLoading(true);
     });
-    this.props.teravoz.events.on('registrationFailed', (payload) => {
+    this.props.teravoz.events.once('registrationFailed', () => {
       ZAF.removeKey('peer');
       this.props.setLoading(false);
       this.props.setError({ message: 'Credenciais incorretas' });
     });
-    this.props.teravoz.events.on('registered', (payload) => {
-      const { username, password, remainConnected } = this.props;
+    this.props.teravoz.events.once('registered', () => {
+      const { username, password, remainConnected, registered } = this.props;
+      if (registered) {
+        return;
+      }
       if (remainConnected) {
         ZAF.setKey('peer', JSON.stringify({ username, password }));
       }
       this.props.setLoading(false);
+      this.props.setRegistered(true);
       this.props.changePage('dialing');
     });
-  }
 
-  componentDidMount() {
     ZAF.getKey('peer').then((auth) => {
 
       const peer = JSON.parse(auth);
@@ -70,7 +84,6 @@ class Login extends React.Component {
   }
 
   onRegister = () => {
-
     const { username, password } = this.props;
     const errors = { username: null, password: null };
 
@@ -91,7 +104,7 @@ class Login extends React.Component {
   }
 
   onCheck() {
-    this.setRemainConnected({ remainConnected: !this.props.remainConnected })
+    this.props.setRemainConnected({ remainConnected: !this.props.remainConnected })
   }
 
   onUsernameChange = (e) => {

@@ -41,8 +41,11 @@ class Dialpad extends Component {
     const valid = this.isValidChar(key);
     if (valid) {
       let value = '';
-      if (key === 'Enter' && this.state.value.length > 0) {
-        this.props.onEnterPressed();
+      if (key === 'Enter' ){
+        if (this.state.value.length > 0) {
+          this.props.onEnterPressed();
+        }
+        return;
       } else if (key === 'Backspace') {
         value = this.state.value.substring(0, this.state.value.length - 1);
       } else {

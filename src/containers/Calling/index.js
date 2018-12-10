@@ -12,13 +12,11 @@ import { changeStatus, endCall } from '../../actions/call';
 import styles from './style.scss';
 import Dialform from '../../components/Dialform/index.js';
 import Button from '../../components/Button/index.js';
-import KeyboardIcon from '../../components/Icons/KeyboardIcon';
-import UserIcon from '../../components/Icons/UserIcon';
-import TransferIcon from '../../components/Icons/Transfer';
 import HangupIcon from '../../components/Icons/Hangup';
-import profileIcon from '../../assets/profile.svg';
 import NamedPhoto from '../../components/NamedPhoto/index.js';
-import VDivider from '../../components/VDivider/index.js';
+
+import calling from '../../assets/audio/phone/calling.mp3';
+
 
 const mapStateToProps = ({ call, profile, teravoz }) => ({
   call,
@@ -52,6 +50,12 @@ class Calling extends Component {
 
   componentWillMount() {
     const { setAppHeight, teravoz, changePage, changeStatus, endCall } = this.props;
+
+    // Setting the ringing audio defaults;
+    this.calling = new Audio(calling);
+    this.calling.play();
+    this.calling.loop = true;
+
     teravoz.events.once('hangUp', () => {
       changePage('dialing');
       endCall();
@@ -65,14 +69,19 @@ class Calling extends Component {
       changePage('ongoing-call');
     });
     teravoz.events.once('earlyMedia', () => {
+      this.calling.pause();
       changeStatus('calling');
     });
 
     setAppHeight(310);
   }
 
-  hangup() {
+  hangup = () => {
     this.props.teravoz.hangUp();
+  }
+
+  componentWillUnmount() {
+    this.calling.pause();
   }
 
   renderPictures() {
@@ -95,7 +104,7 @@ class Calling extends Component {
     );
   }
 
-  render() {
+  render() { 
     return (
       <div className={ styles.calling }>
         <Dialform classes={ styles.mt30 } value={ this.props.call.number } disabled={ true } />
@@ -106,7 +115,7 @@ class Calling extends Component {
             medium={ true }
             red={ true }
             label="Cancelar"
-            onClick={ this.hangup.bind(this) }
+            onClick={ this.hangup }
             icon={ <HangupIcon color='#d6002b' /> }
           />
         </div>

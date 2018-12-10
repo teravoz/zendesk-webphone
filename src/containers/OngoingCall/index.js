@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { setAppHeight } from '../../actions/settings'
@@ -11,13 +10,13 @@ import Profile from '../../components/Profile';
 import CallStatus from '../../components/CallStatus';
 import Timer from '../../components/Timer';
 import Dialpad from '../../components/Dialpad';
-import DoubleArrowIcon from '../../components/Icons/DoubleArrow';
 import Toolbox from '../../components/Toolbox';
 import ToolboxItem from '../../components/ToolboxItem';
 import MicrophoneIcon from '../../components/Icons/Microphone';
 import PhonePausedIcon from '../../components/Icons/PhonePaused';
-import TransferIcon from '../../components/Icons/Transfer';
 import VDivider from '../../components/VDivider';
+
+import getTones from '../../misc/digit-tones';
 
 const mapStateToProps = ({ call, profile, teravoz }) => ({
   call,
@@ -35,12 +34,21 @@ const mapDispatchToProps = (dispatch) => ({
 
 class OngoingCall extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.audio = getTones();
+  }
+
   componentWillMount() {
     this.props.setAppHeight(580);
   }
 
-  onValueChanged = (value, tone) => {
-    this.props.teravoz.sendDTMF(tone);;
+  onValueChanged = (value, key) => {
+    if (key !== 'Backspace' && key !== 'Enter') {
+      this.audio[key].play();
+    }
+    this.props.teravoz.sendDTMF(key);
   }
 
   onCall = () => {}

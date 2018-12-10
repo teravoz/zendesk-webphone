@@ -4,7 +4,8 @@ const initialState = {
   error: null,
   username: null,
   password: null,
-  remainConnected: true
+  remainConnected: true,
+  registered: false
 };
 
 const reducer = (state = initialState, action) => {
