@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => ({
     setRemainConnected,
     setRegistered,
     setError,
-    setLoading
+    setLoading,
   }, dispatch),
   setAppHeight
 });
@@ -32,21 +32,11 @@ const mapDispatchToProps = dispatch => ({
 class Login extends React.Component {
 
   text = 'Utilize a mesma senha cadastrada em seu ramal';
-  remainConnected = true;
 
   componentWillMount() {
     this.props.setAppHeight(290);
   }
   
-  registerListener = () => {
-    const { username, password, remainConnected } = this.props;
-    if (remainConnected) {
-      ZAF.setKey('peer', JSON.stringify({ username, password }));
-    }
-    this.props.setLoading(false);
-    this.props.changePage('dialing');
-  }
-
   componentDidMount() {
     this.props.teravoz.events.once('registering', () => {
       this.props.setLoading(true);

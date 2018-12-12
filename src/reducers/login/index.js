@@ -45,6 +45,13 @@ const reducer = (state = initialState, action) => {
       }
     }
 
+    if (action.type === actions.CLEAR_LOGIN) {
+      return {
+        ...state,
+        ...initialState
+      }
+    }
+
     return state;
 }
 

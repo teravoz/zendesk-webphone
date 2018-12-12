@@ -3,7 +3,8 @@ export const actions = {
   SET_PASSWORD: 'SET_PASSWORD',
   SET_ERROR: 'SET_ERROR',
   SET_REGISTERED: 'SET_REGISTERED',
-  SET_REMAIN_CONNECTED: 'SET_REMAIN_CONNECTED'
+  SET_REMAIN_CONNECTED: 'SET_REMAIN_CONNECTED',
+  CLEAR_LOGIN: 'CLEAR_LOGIN'
 };
 
 
@@ -25,6 +26,10 @@ export const setError = (error) => dispatch => {
 
 export const setRegistered = (registered) => dispatch => {
   dispatch({ type: actions.SET_REGISTERED, registered });
+}
+
+export const clearLogin = () => dispatch => {
+  dispatch({ type: actions.CLEAR_LOGIN });
 }
 
 

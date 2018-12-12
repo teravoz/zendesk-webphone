@@ -6,6 +6,7 @@ import ZAF from '../../misc/ZAFClient';
 import { startCall, setIncomingActions } from '../../actions/call';
 import { changePage, setAppHeight } from '../../actions/settings';
 import { setTeravozWebRTCHandler } from '../../actions/teravoz';
+import { clearLogin } from '../../actions/login';
 import Footer from '../../components/Footer';
 import IncomingRequest from '../IncomingRequest';
 import OngoingCall from '../OngoingCall';
@@ -22,7 +23,7 @@ const mapStateToProps = ({ settings, loading, login }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ...bindActionCreators({ changePage, setTeravozWebRTCHandler }, dispatch),
+  ...bindActionCreators({ changePage, setTeravozWebRTCHandler, clearLogin }, dispatch),
   startIncomingCall: (actions, number) => {
     dispatch(startCall('incoming', 'ringing', number));
     dispatch(setIncomingActions(actions));
@@ -66,6 +67,7 @@ class Main extends Component {
   destroy = () => {
     ZAF.removeKey('peer').then(() => {
       this.props.teravoz.events.once('unregistered', () => {
+        this.props.clearLogin();
         this.props.changePage('login');
       });
       if (this.props.settings.page == 'incoming-request') {
