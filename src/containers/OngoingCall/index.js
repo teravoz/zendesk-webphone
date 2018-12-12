@@ -104,7 +104,6 @@ class OngoingCall extends Component {
         <Dialpad
           onValueChanged={ this.onValueChanged }
           onEnterPressed={ this.onCall }
-          readOnly={ true }
         />
       </div>
     );

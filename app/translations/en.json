@@ -1,6 +1,6 @@
 {
   "app": {
-    "description": "Sample app for Zendesk App Framework V2, using React and redux",
-    "name": "Zendesk React App Boilerplate"
+    "description": "Webphone app to make and receive calls",
+    "name": "Teravoz Webphone"
   }
 }

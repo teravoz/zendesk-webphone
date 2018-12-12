@@ -24,7 +24,7 @@ var plugins = [
         },
       ]
     }),
-    new Dotenv()
+    new Dotenv(),
 ];
 
 module.exports = (env) => {
@@ -36,6 +36,11 @@ module.exports = (env) => {
     output: {
         path: path.resolve(__dirname, 'app/assets'),
         filename: 'bundle.js'
+    },
+    optimization: {
+      minimize: true,
+      mergeDuplicateChunks: true,
+      concatenateModules: true
     },
     plugins: plugins,
     module: {
@@ -71,7 +76,8 @@ module.exports = (env) => {
                 cacheDirectory: true,
                 presets: ['@babel/preset-env', '@babel/preset-react'],
                 plugins: [
-                  '@babel/plugin-proposal-class-properties',
+                  [ '@babel/plugin-proposal-decorators', { 'legacy': true } ],
+                  [ '@babel/plugin-proposal-class-properties', { 'loose': true } ]
                 ]
               }
             }
@@ -90,7 +96,7 @@ module.exports = (env) => {
                 loader: 'css-loader',
                 options: {
                   modules: true,
-                  sourceMap: true,
+                  sourceMap: false,
                   importLoaders: 2,
                   localIdentName: '[local]___[hash:base64:5]'
                 }

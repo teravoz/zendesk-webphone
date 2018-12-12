@@ -19,7 +19,7 @@ const Profile = ({ name, email, tags, photo, dark }) => {
     return (
       <div className={ classnames(styles.profile, { [styles.center]: tags && tags.length > 0 }) }>
         <Photo photoUrl={ photo } />
-        <div className={ styles.profile__info } >
+        <div className={ classnames(styles.profile__info, { [styles.vcenter]: !tags || tags.length == 0 }) } >
           <span className={ styles.profile__info__name } > { name || 'Desconhecido' } </span>
           <span className={ styles.profile__info__email } > { email || 'Nenhum e-mail encontrado' }</span>
           {

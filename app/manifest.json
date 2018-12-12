@@ -16,10 +16,11 @@
   "frameworkVersion": "2.0",
   "parameters": [
     {
+      "helpText": "WebRTC API_KEY generated at Teravoz",
+      "label": "API_KEY",
       "name": "api_key",
-      "type": "password",
-      "required": true,
-      "secure": true
+      "type": "text",
+      "required": true
     }
   ]
 }

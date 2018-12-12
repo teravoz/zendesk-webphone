@@ -20,7 +20,7 @@ export const setAppHeight = height => {
     if (!height) {
       return;
     }
-    ZAF.client.invoke('resize', { width: '265px', height: (height) + 'px' });
+    ZAF.client.invoke('resize', { width: '264px', height: (height) + 'px' });
 }
 
 export const changePage = (page, data = {}) => ({

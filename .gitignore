@@ -4,6 +4,7 @@ app/assets/app.css
 app/assets/*.mp3
 app/assets/*.*.mp3
 app/assets/app.css.map
+app/tmp
 node_modules
 .DS_Store
 .env

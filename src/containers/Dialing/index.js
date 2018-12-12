@@ -45,9 +45,16 @@ class Dialing extends React.Component {
 
   onValueChanged = (number, key) => {
     if (key !== 'Backspace' && key !== 'Enter') {
-      this.audio[key].play();
+      if (!this.audio[key].paused) {
+        this.audio[key].pause();
+        this.audio[key].currentTime = 0;
+      }
+      this.audio[key].play().then(() => {
+        this.props.setNumber(number);
+      });
+    } else {
+      this.props.setNumber(number);
     }
-    this.props.setNumber(number);
   }
 
   onCall = () => {
@@ -73,10 +80,9 @@ class Dialing extends React.Component {
           onEnterPressed={ this.onCall }
           readOnly={ isDialing }
         />
-        <div className={ styles.dialing__button }>
+        <div onClick={ () => this.onCall() } className={ styles.dialing__button }>
           <Button
             disabled={ !this.props.dialing.number || isDialing }
-            onClick={ () => this.onCall() }
             classes={ styles.dialing__button__size }
             primary={ true }
             label="Ligar"

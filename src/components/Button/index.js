@@ -5,7 +5,7 @@ import styles from './style.scss';
 
 const Button = (props) => {
   return (
-    <button disabled={ props.disabled } onClick={ props.onClick } 
+    <button disabled={ props.disabled } onClick={ props.onClick || (() => {}) } 
       className={ classnames(props.classes, styles.button, 
       { [styles.button__primary]: props.primary }, 
       { [styles.button__transparent]: props.transparent }, 
@@ -23,7 +23,7 @@ const Button = (props) => {
 Button.propTypes = {
   classes: PropTypes.string,
   label: PropTypes.any.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   icon: PropTypes.node,
   disabled: PropTypes.bool
 }

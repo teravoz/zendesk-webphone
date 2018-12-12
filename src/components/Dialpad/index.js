@@ -6,15 +6,15 @@ import Dialform from '../Dialform';
 import Keyboard from '../Keyboard';
 
 class Dialpad extends Component {
-
+  
   propDefaults = {
     readOnly: false
   }
-
+  
   state = {
     value: ''
   }
-
+  
   isValidChar(key) {
     switch(key) {
       case '#':
@@ -33,15 +33,15 @@ class Dialpad extends Component {
       case '0':
       case 'Enter':
       case 'Backspace':
-        return true;
+      return true;
     }
   }
-
+  
   setNumber(key) {
     const valid = this.isValidChar(key);
     if (valid) {
       let value = '';
-      if (key === 'Enter' ){
+      if (key === 'Enter'){
         if (this.state.value.length > 0) {
           this.props.onEnterPressed();
         }
@@ -53,11 +53,23 @@ class Dialpad extends Component {
       }
       this.setState({ value });
       this.props.onValueChanged && this.props.onValueChanged(value, key);
+      }
     }
+
+  onTextChanged(e) {
+    this.setNumber(e.key);
   }
 
-  onTextChanged = (e) => {
-    this.setNumber(e.key);
+  onPaste = (e) => {
+    e.clipboardData.items[0] && e.clipboardData.items[0].getAsString((text) => {
+      text.split('').forEach((key) => {
+        this.setNumber(key);
+      })
+    })
+  }
+
+  onCut = (e) => {
+    this.setState({ value: '' });
   }
 
   onKeyPress = (value) => (e) => {
@@ -72,7 +84,9 @@ class Dialpad extends Component {
         <Dialform
           disabled={ readOnly }
           classes={ styles.mt30 }
-          handler={ this.onTextChanged }
+          handler={ this.onTextChanged.bind(this) }
+          onPaste={ this.onPaste }
+          onCut={ this.onCut }
           placeholder={ placeholder }
           value={ value }
           visible={ true }

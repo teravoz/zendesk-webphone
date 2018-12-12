@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
+import Sound from 'react-sound';
 
 import { changeStatus, endCall } from '../../actions/call';
 import { fetchProfileByNumber } from '../../actions/profile';
@@ -7,7 +8,6 @@ import { changePage, setAppHeight } from '../../actions/settings';
 import CallButtons from '../../components/CallButtons';
 import Profile from '../../components/Profile';
 
-import ringing from '../../assets/audio/phone/ringing.mp3';
 
 const mapStateToProps = ({ call, profile, teravoz }) => ({
   call,
@@ -30,10 +30,6 @@ class IncomingRequest extends Component {
     setAppHeight(200);
 
     // Setting the ringing audio defaults;
-    this.ringing = new Audio(ringing);
-    this.ringing.play();
-    this.ringing.loop = true;
-
     teravoz.events.once('acceptedCall', this.onCallAccepted);
     teravoz.events.once('hangUp', this.onCallFinished);
     teravoz.events.once('missedCall', this.onCallFinished);
@@ -59,15 +55,17 @@ class IncomingRequest extends Component {
     this.props.call.incoming.actions.decline();
   }
 
-  componentWillUnmount() {
-    this.ringing.pause();
-    this.ringing = null;
-  }
-
   render() {
     const { profile } = this.props;
     return (
       <Fragment>
+        { this.props.call.status == 'ringing' ?
+          <Sound 
+            url={ `${process.env.SOUND_BASE_PATH}/ringing.mp3` }
+            loop={ true }
+            playStatus={ Sound.status.PLAYING }
+          /> :  null 
+        }
         <Profile { ...profile } />
         <CallButtons
           buttonSuccessLabel="Aceitar"

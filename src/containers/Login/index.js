@@ -83,7 +83,8 @@ class Login extends React.Component {
     });
   }
 
-  onRegister = () => {
+  onRegister = (e) => {
+    e.preventDefault();
     const { username, password } = this.props;
     const errors = { username: null, password: null };
 
@@ -119,7 +120,7 @@ class Login extends React.Component {
     const { error } = this.props;
     return (
       <div className={ styles.login }>
-        <div className={ styles.login__form }>
+        <form className={ styles.login__form }>
           <div className={ styles.login__form__item }>
             <input onChange={ this.onUsernameChange } type="text" placeholder="Ramal" />
             { error && error.username ?
@@ -155,7 +156,7 @@ class Login extends React.Component {
           <div className={ styles.login__form__item + ' ' + styles.mt30 }>
             <button onClick={ this.onRegister } className={ styles.login__form__item__button }> Acessar </button>
           </div>
-        </div>
+        </form>
       </div>
     );
   }

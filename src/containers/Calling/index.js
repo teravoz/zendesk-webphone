@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Lottie from 'react-lottie';
 import PropTypes from 'prop-types';
+import Sound from 'react-sound';
 import classnames from 'classnames';
 
 import * as callingAnimation from '../../assets/calling-lottie.json';
@@ -15,7 +16,7 @@ import Button from '../../components/Button/index.js';
 import HangupIcon from '../../components/Icons/Hangup';
 import NamedPhoto from '../../components/NamedPhoto/index.js';
 
-import calling from '../../assets/audio/phone/calling.mp3';
+// import calling from '../../assets/audio/phone/calling.mp3';
 
 
 const mapStateToProps = ({ call, profile, teravoz }) => ({
@@ -49,39 +50,38 @@ class Calling extends Component {
   }
 
   componentWillMount() {
-    const { setAppHeight, teravoz, changePage, changeStatus, endCall } = this.props;
+    this.props.setAppHeight(310);
+  }
+
+  componentDidMount() {
+    const { teravoz, changePage, changeStatus } = this.props;
 
     // Setting the ringing audio defaults;
-    this.calling = new Audio(calling);
-    this.calling.play();
-    this.calling.loop = true;
-
-    teravoz.events.once('hangUp', () => {
-      changePage('dialing');
-      endCall();
-    });
-    teravoz.events.once('cleanup', () => {
-      changePage('dialing');
-      endCall();
-    });
+    teravoz.events.once('hangUp', this.clear);
+    teravoz.events.once('cleanup', this.clear);
     teravoz.events.once('acceptedCall', () => {
-      changeStatus('ongoing');
-      changePage('ongoing-call');
+      setTimeout(() => {
+        changeStatus('ongoing');
+        changePage('ongoing-call');
+      }, 500);
     });
     teravoz.events.once('earlyMedia', () => {
-      this.calling.pause();
-      changeStatus('calling');
+      setTimeout(() => {
+        changeStatus('calling');
+      }, 500);
     });
+  }
 
-    setAppHeight(310);
+  clear = () => {
+    const { changePage, endCall } = this.props;
+    setTimeout(() => {
+      changePage('dialing');
+      endCall();
+    }, 100);
   }
 
   hangup = () => {
     this.props.teravoz.hangUp();
-  }
-
-  componentWillUnmount() {
-    this.calling.pause();
   }
 
   renderPictures() {
@@ -107,6 +107,13 @@ class Calling extends Component {
   render() { 
     return (
       <div className={ styles.calling }>
+        { this.props.call.status == 'dialing' ?
+          <Sound 
+            url={ `${process.env.SOUND_BASE_PATH}/calling.mp3` }
+            loop={ true }
+            playStatus={ Sound.status.PLAYING }
+          /> :  null 
+        }
         <Dialform classes={ styles.mt30 } value={ this.props.call.number } disabled={ true } />
         { this.renderPictures() }
         <div className={ classnames(styles.calling__button, styles.mt30) }>
