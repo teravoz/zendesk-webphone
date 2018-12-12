@@ -16,7 +16,7 @@
   "frameworkVersion": "2.0",
   "parameters": [
     {
-      "helpText": "WebRTC API_KEY generated at Teravoz",
+      "helpText": "WebRTC API_KEY gerado na Teravoz. Caso não seja cliente, acesse nosso site: teravoz.com.br",
       "label": "API_KEY",
       "name": "api_key",
       "type": "text",

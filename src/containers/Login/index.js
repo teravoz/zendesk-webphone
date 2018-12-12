@@ -104,8 +104,8 @@ class Login extends React.Component {
     this.props.teravoz.register(username, password);
   }
 
-  onCheck() {
-    this.props.setRemainConnected({ remainConnected: !this.props.remainConnected })
+  onCheck = () => {
+    this.props.setRemainConnected(!this.props.remainConnected);
   }
 
   onUsernameChange = (e) => {
@@ -150,7 +150,7 @@ class Login extends React.Component {
           }
 
           <div className={ styles.login__form__item  + ' ' + styles.mt15 }>
-            <Checkbox onCheck={ this.onCheck.bind(this) } checked={ this.props.remainConnected } label="Permanecer conectado" />
+            <Checkbox onCheck={ this.onCheck } checked={ this.props.remainConnected } label="Permanecer conectado" />
           </div>
 
           <div className={ styles.login__form__item + ' ' + styles.mt30 }>

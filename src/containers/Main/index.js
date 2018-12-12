@@ -63,13 +63,26 @@ class Main extends Component {
     }
   }
 
+  destroy = () => {
+    ZAF.removeKey('peer').then(() => {
+      this.props.teravoz.events.once('unregistered', () => {
+        this.props.changePage('login');
+      });
+      if (this.props.settings.page == 'incoming-request') {
+        this.props.teravoz.hangUp();
+      }
+      this.props.teravoz.unregister();
+    });
+  }
+
   render() {
+    const page = this.props.settings.page === 'login' || this.props.settings.page === 'ongoing-call';
     return (
       <div>
         <div className={ styles.content }>
           { this.renderPage() }
         </div>
-        <Footer />
+        <Footer hideLogout={ page } onClick={ this.destroy }/>
       </div>
     );
   }
