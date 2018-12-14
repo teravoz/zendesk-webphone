@@ -5,8 +5,8 @@
     "email": "tech@teravoz.com.br",
     "url": "https://teravoz.com.br"
   },
-  "defaultLocale": "en",
-  "private": true,
+  "defaultLocale": "pt-br",
+  "private": false,
   "location": {
     "support": {
       "top_bar": "assets/index.html"
