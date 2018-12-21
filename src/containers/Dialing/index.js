@@ -14,6 +14,7 @@ import { startCall } from '../../actions/call';
 import { fetchProfileByNumber } from '../../actions/profile';
 import Dialpad from '../../components/Dialpad';
 import getTones from '../../misc/digit-tones';
+import SettingsIcon from '../../components/Icons/Settings';
 
 const mapStateToProps = ({ call, dialing, teravoz }) => ({
   call,
@@ -44,7 +45,7 @@ class Dialing extends React.Component {
   }
 
   onValueChanged = (number, key) => {
-    if (key !== 'Backspace' && key !== 'Enter') {
+    if (key && key !== 'Backspace' && key !== 'Enter') {
       if (!this.audio[key].paused) {
         this.audio[key].pause();
         this.audio[key].currentTime = 0;
@@ -75,6 +76,7 @@ class Dialing extends React.Component {
     const isDialing = this.props.call.status == 'dialing';
     return (
       <div className={ styles.dialing }>
+        <SettingsIcon />
         <Dialpad
           onValueChanged={ this.onValueChanged }
           onEnterPressed={ this.onCall }
