@@ -1,6 +1,6 @@
 {
   "name": "zendesk-webphone",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Webphone Zendesk APP",
   "scripts": {
     "build:prod": "env=production webpack && ./build.sh production",
