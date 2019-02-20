@@ -3,8 +3,9 @@
   "version": "0.1.1",
   "description": "Webphone Zendesk APP",
   "scripts": {
-    "prod": "env=prod webpack",
-    "dev": "env=dev webpack --watch"
+    "build:prod": "env=production webpack && ./build.sh production",
+    "build:stag": "env=staging webpack && ./build.sh staging",
+    "build": "env=dev webpack --watch"
   },
   "author": "Teravoz",
   "license": "ISC",

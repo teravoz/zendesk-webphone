@@ -14,11 +14,15 @@ then
   exit 1;
 fi
 
-if [ $ENV != "staging" ] && [ "$ENV" != "production" ] 
+if [ "$ENV" != "staging" ] && [ "$ENV" != "production" ]
 then
   echo "You must the environment."
   exit 1;
 fi
+
+
+
+
 
 
 if [ "$ENV" == "staging" ] 
