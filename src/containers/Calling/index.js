@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Lottie from 'react-lottie';
 import PropTypes from 'prop-types';
-import Sound from 'react-sound';
 import classnames from 'classnames';
 
 import * as callingAnimation from '../../assets/calling-lottie.json';
@@ -16,27 +15,33 @@ import Button from '../../components/Button/index.js';
 import HangupIcon from '../../components/Icons/Hangup';
 import NamedPhoto from '../../components/NamedPhoto/index.js';
 
-// import calling from '../../assets/audio/phone/calling.mp3';
 
-
-const mapStateToProps = ({ call, profile, teravoz }) => ({
+const mapStateToProps = ({ call, profile, teravoz, devices }) => ({
   call,
   profile,
-  teravoz
+  teravoz,
+  devices
 });
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ changePage, changeStatus, endCall }, dispatch),
-  setAppHeight
+  setAppHeight: () => dispatch(setAppHeight(310))
 });
 
 class Calling extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.callingSound = React.createRef();
+  }
 
   state = {
     animation: {
       stopped: false,
       paused: false
-    }
+    },
+    sinkId: false
   }
 
   defaultOptions = {
@@ -50,7 +55,7 @@ class Calling extends Component {
   }
 
   componentWillMount() {
-    this.props.setAppHeight(310);
+    this.props.setAppHeight();
   }
 
   componentDidMount() {
@@ -66,10 +71,28 @@ class Calling extends Component {
       }, 500);
     });
     teravoz.events.once('earlyMedia', () => {
-      setTimeout(() => {
-        changeStatus('calling');
-      }, 500);
+      setTimeout(() => changeStatus('calling'), 500);
     });
+
+    const { currentOutput } = this.props.devices;
+
+    if (this.callingSound && this.callingSound.current) {
+      this.callingSound.current.volume = 1;
+
+      if (this.callingSound.current.sinkId === currentOutput.deviceId 
+          || (!this.callingSound.current.sinkId && currentOutput.deviceId === 'default')) {
+        return;
+      }
+
+      this.callingSound.current.setSinkId(currentOutput.deviceId)
+        .then(() => {
+          console.debug(`Successfuly set the output device ${currentOutput.label} - ${currentOutput.deviceId} to calling sound.`)
+          this.setState({ sinkId: true });
+        })
+        .catch((error) => {
+          console.debug(`Failed to set the output device ${currentOutput.label} - ${currentOutput.deviceId} to the calling sound : ${error.message}`)
+        });
+    }
   }
 
   clear = () => {
@@ -107,12 +130,9 @@ class Calling extends Component {
   render() { 
     return (
       <div className={ styles.calling }>
-        { this.props.call.status == 'dialing' ?
-          <Sound 
-            url={ `${process.env.SOUND_BASE_PATH}/calling.mp3` }
-            loop={ true }
-            playStatus={ Sound.status.PLAYING }
-          /> :  null 
+        { this.props.call.status === 'dialing' ?
+          <audio autoPlay={true} loop={true} src={`${process.env.SOUND_BASE_PATH}/calling.mp3`} className={styles.callingperson__hidden} ref={this.callingSound} /> 
+          : null
         }
         <Dialform classes={ styles.mt30 } value={ this.props.call.number } disabled={ true } />
         { this.renderPictures() }

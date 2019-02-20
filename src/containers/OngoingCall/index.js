@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { setAppHeight } from '../../actions/settings'
+import { setAppHeight, getTones } from '../../actions/settings'
 import { changeStatus, endCall, toggleHold, toggleMute } from '../../actions/call';
 import styles from './style.scss';
 import CallButtons from '../../components/CallButtons';
@@ -16,12 +16,12 @@ import MicrophoneIcon from '../../components/Icons/Microphone';
 import PhonePausedIcon from '../../components/Icons/PhonePaused';
 import VDivider from '../../components/VDivider';
 
-import getTones from '../../misc/digit-tones';
-
-const mapStateToProps = ({ call, profile, teravoz }) => ({
+const mapStateToProps = ({ call, profile, teravoz, devices, settings }) => ({
   call,
   profile,
-  teravoz
+  teravoz,
+  devices,
+  settings
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -29,29 +29,37 @@ const mapDispatchToProps = (dispatch) => ({
   endCall: () => dispatch(endCall),
   toggleHold: () => dispatch(toggleHold()),
   toggleMute: () => dispatch(toggleMute()),
-  setAppHeight
+  setAppHeight: () => dispatch(setAppHeight(610)),
+  getTones: (refs) => dispatch(getTones(refs))
 });
 
 class OngoingCall extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.audio = getTones();
-  }
+  references = {}
 
   componentWillMount() {
-    this.props.setAppHeight(580);
+    this.props.setAppHeight();
+  }
+
+  componentDidMount() {
+    this.props.getTones(this.references);
+  }
+
+  createRef(name) {
+    this.references[name] = React.createRef();
+
+    return this.references[name];
   }
 
   onValueChanged = (value, key) => {
-    if (key !== 'Backspace' && key !== 'Enter') {
-      this.audio[key].play();
+    if (key !== 'Backspace' && key !== 'Enter' && key !== 'Delete') {
+      if (this.props.settings.tones) {
+        this.props.settings.tones[key].play();
+      }
     }
-    this.props.teravoz.sendDTMF(key);
+    
+    setTimeout(() => this.props.teravoz.sendDTMF(key), 700);
   }
-
-  onCall = () => {}
 
   onHangUpClick = () => {
     this.props.teravoz.hangUp();
@@ -63,6 +71,25 @@ class OngoingCall extends Component {
 
   onMuteClick = () => {
     this.props.toggleMute();
+  }
+
+  renderAudio = () => {
+    return (
+      <Fragment> 
+        <audio className={styles.ongoing__hidden} ref={this.createRef('0')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('1')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('2')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('3')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('4')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('5')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('6')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('7')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('8')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('9')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('#')}></audio>
+        <audio className={styles.ongoing__hidden} ref={this.createRef('*')}></audio>
+      </Fragment>
+    );
   }
 
   getControlStatuses() {
@@ -105,6 +132,8 @@ class OngoingCall extends Component {
           onValueChanged={ this.onValueChanged }
           onEnterPressed={ this.onCall }
         />
+
+        { this.renderAudio() }
       </div>
     );
   }

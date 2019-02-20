@@ -1,11 +1,11 @@
 {
-  "name": "WEBPHONE",
+  "name": "Teravoz Webphone",
   "author": {
-    "name": "Enrico Alvarenga",
+    "name": "Teravoz",
     "email": "tech@teravoz.com.br",
     "url": "https://teravoz.com.br"
   },
-  "defaultLocale": "pt-br",
+  "defaultLocale": "en",
   "private": false,
   "location": {
     "support": {
@@ -13,14 +13,5 @@
     }
   },
   "version": "1.0",
-  "frameworkVersion": "2.0",
-  "parameters": [
-    {
-      "helpText": "WebRTC API_KEY gerado na Teravoz. Caso não seja cliente, acesse nosso site: teravoz.com.br",
-      "label": "API_KEY",
-      "name": "api_key",
-      "type": "text",
-      "required": true
-    }
-  ]
+  "frameworkVersion": "2.0"
 }

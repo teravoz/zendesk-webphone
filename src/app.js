@@ -18,16 +18,10 @@ const store = createStore(reducers,
     )
 )
 
-HOC().then((Component) => {
-  render((
-      <Provider store={ store }>
-        { Component }
-      </Provider>
-  ), document.getElementById('app'));
-}).catch((error) => {
-  render((
-    <Provider store={ store }>
-      <Loading text={ error } />
-    </Provider>
-  ), document.getElementById('app'));
-});
+const WrappedComponent = HOC();
+
+render((
+  <Provider store={store}>
+    {WrappedComponent}
+  </Provider>
+), document.getElementById('app'));

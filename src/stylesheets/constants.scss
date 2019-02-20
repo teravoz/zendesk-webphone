@@ -1,3 +1,8 @@
-$app-height: 290px;
-$footer-height: 30px;
-$content-height: $app-height - $footer-height;
+// Colors  
+$blue: #2e6580;
+
+// Sizes
+$app-height: 100%;
+$footer-height: 45px;
+$content-height: calc(#{$app-height} - #{$footer-height});
+$header-height: 50px;

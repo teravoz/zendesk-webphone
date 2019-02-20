@@ -11,6 +11,10 @@
   align-items: center;
   justify-content: space-around;
 
+  &__hidden {
+    visibility: hidden;
+  }
+
   &__profile {
     &__item {
       display: flex;

@@ -1,0 +1,30 @@
+@import '../../stylesheets/all.scss';
+
+.list_item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  background: #fff;
+  border-bottom: 1px solid #bac0c3;
+  height: 50px;
+  cursor: pointer;
+  &:hover {
+    cursor: pointer;
+  }
+  &__icon {
+    width: 28px;
+    height: 28px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  &__content {
+    @extend .typography;
+    align-self: center;
+    color: #787878;
+    font-weight: 500;
+    font-size: 14px;
+    margin-left: 5px;
+  }
+}

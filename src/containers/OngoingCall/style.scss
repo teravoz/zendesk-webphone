@@ -1,6 +1,10 @@
 @import '../../stylesheets/all.scss';
 
 .ongoing {
+  &__hidden {
+    visibility: hidden;
+  }
+  
   &__icon {
     display: flex;
     align-items: center;

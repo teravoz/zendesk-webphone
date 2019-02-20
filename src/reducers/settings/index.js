@@ -4,11 +4,12 @@ const initialState = {
   apiKey: null,
   page: 'login',
   data: {},
+  tones: null
 }
 
 export default (state = initialState, action) => {
 
-  switch(action.type) {
+  switch (action.type) {
     case actions.SET_WEBRTC_API_KEY:
       return {
         ...state,
@@ -19,6 +20,11 @@ export default (state = initialState, action) => {
         ...state,
         page: action.page,
         data: action.data
+      };
+    case actions.GET_TONES:
+      return {
+        ...state,
+        tones: action.tones,
       };
     default: return state;
   }

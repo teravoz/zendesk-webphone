@@ -25,14 +25,34 @@
     flex-direction: row;
   }
 
+  &__group {
+    display: flex;
+    align-items: center;
+  }
+
   & span {
     text-transform: uppercase;
-    padding-left: 18px;
+    padding-left: 20px;
     &:hover {
       cursor: pointer;
     }
   }
-   & div {
-    padding-top: 8px;
+
+  &__bt_settings {
+    background: transparent;
+    height: 38px !important;
+    border-radius: 5px !important;
+    cursor: pointer;
+    margin-left: 21px;
+
+    &__pressed {
+      background: #104762;
+    }
+  }
+
+
+  &__bt_settings:hover,
+  &__bt_settings:active {
+    background: #104762;
   }
 }

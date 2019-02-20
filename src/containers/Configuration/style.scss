@@ -1,0 +1,11 @@
+@import '../../stylesheets/all.scss';
+
+.configuration {
+  height: 460px;
+  background: #f0f0f0;
+  &__options_list {
+    margin-top: 0;
+    height: 460px;
+    overflow-y: auto;
+  }
+}

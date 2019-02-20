@@ -1,8 +1,6 @@
-
+@import '../../stylesheets/all.scss';
 
 .adapter {
-  max-height: 600px;
-  max-width: 265px;
   & audio {
     visibility: hidden;
   }

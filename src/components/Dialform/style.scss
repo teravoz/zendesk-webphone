@@ -78,19 +78,9 @@
 
       & input::-webkit-input-placeholder {
         @extend .typography;
-        font-size: 26px;
+        font-size: 0.8em;
         text-align: center;
         font-weight: 300;
-        color: #d1d1d1;
-      }
-      & input::-ms-input-placeholder {
-        @extend .typography;
-        font-size: 26px;
-        color: #d1d1d1;
-      }
-      & input::-moz-placeholder {
-        @extend .typography;
-        font-size: 26px;
         color: #d1d1d1;
       }
     }

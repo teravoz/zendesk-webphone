@@ -98,7 +98,7 @@ module.exports = (env) => {
                   modules: true,
                   sourceMap: false,
                   importLoaders: 2,
-                  localIdentName: '[local]___[hash:base64:5]'
+                  localIdentName: `[local]___[hash:base64:5]`
                 }
               },
             'sass-loader'

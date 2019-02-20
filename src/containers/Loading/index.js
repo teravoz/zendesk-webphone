@@ -26,7 +26,7 @@ class Loading extends React.Component {
   }
 
   componentWillMount() {
-    this.props.setAppHeight(290);
+    this.props.setAppHeight();
   }
 
   render() {
@@ -45,7 +45,9 @@ class Loading extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({ setAppHeight });
+const mapDispatchToProps = dispatch => ({ 
+  setAppHeight: () => dispatch(setAppHeight(290)) 
+});
 
 const mapStateToProps = ({ loading }) => ({ ...loading });
 

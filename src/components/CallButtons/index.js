@@ -17,7 +17,7 @@ const CallButtons = (props) => {
 
   let center = '';
   if (props.children) {
-    center = styles.center;
+    center = styles.callbutton__center;
   }
 
   let successTheme = {};

@@ -1,0 +1,35 @@
+@import '../../stylesheets/all.scss';
+
+.screen_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  text-align: center;
+  color: #fff;
+  height: $header-height;
+  background-color: $blue;
+  &__title {
+    @extend .typography;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  &__back_button,
+  &__close_button {
+    background: transparent;
+    border: none;
+    width: 24px;
+    height: 24px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__back_button {
+    margin-left: 10px
+  }
+  &__close_button {
+    margin-right: 5px
+  }  
+}

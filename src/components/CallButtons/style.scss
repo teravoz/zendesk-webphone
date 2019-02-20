@@ -1,8 +1,5 @@
 @import '../../stylesheets/all.scss';
 
-.center {
-  align-items: center;
-}
 
 .callbutton {
   width: 100%;
@@ -11,6 +8,10 @@
   color: white;
   padding: 0 13px;
   margin-top: 19px;
+
+  &__center {
+    align-items: center;
+  }
 
   &__item {
     display: flex;

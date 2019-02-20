@@ -9,7 +9,7 @@ import { setLoading } from '../../actions/loading';
 import { setError, setPassword, setRegistered, setRemainConnected, setUsername } from '../../actions/login';
 import styles from './style.scss';
 import Checkbox from '../../components/Checkbox';
-import ZAF from '../../misc/ZAFClient';
+import storage from '../../misc/ZAFClient';
 
 const mapStateToProps = ({ login, teravoz, settings }) => ({
   ...login,
@@ -26,7 +26,7 @@ const mapDispatchToProps = dispatch => ({
     setError,
     setLoading,
   }, dispatch),
-  setAppHeight
+  setAppHeight: () => dispatch(setAppHeight(310))
 });
 
 class Login extends React.Component {
@@ -34,15 +34,15 @@ class Login extends React.Component {
   text = 'Utilize a mesma senha cadastrada em seu ramal';
 
   componentWillMount() {
-    this.props.setAppHeight(290);
+    this.props.setAppHeight();
   }
   
   componentDidMount() {
     this.props.teravoz.events.once('registering', () => {
       this.props.setLoading(true);
     });
-    this.props.teravoz.events.once('registrationFailed', () => {
-      ZAF.removeKey('peer');
+    this.props.teravoz.events.once('registrationFailed', (reason) => {
+      storage.removeKey('peer');
       this.props.setLoading(false);
       this.props.setError({ message: 'Credenciais incorretas' });
     });
@@ -52,14 +52,17 @@ class Login extends React.Component {
         return;
       }
       if (remainConnected) {
-        ZAF.setKey('peer', JSON.stringify({ username, password }));
+        storage.setKey('peer', JSON.stringify({ username, password }));
       }
       this.props.setLoading(false);
       this.props.setRegistered(true);
       this.props.changePage('dialing');
     });
 
-    ZAF.getKey('peer').then((auth) => {
+    storage.getKey('peer').then((auth) => {
+      if (!auth) {
+        return;
+      }
 
       const peer = JSON.parse(auth);
       if (peer) {
@@ -69,7 +72,7 @@ class Login extends React.Component {
         this.props.teravoz.register(username, password);
       }
     }).catch((error) => {
-      this.props.setError({ message: 'Erro ao registrar usuário' });
+      this.props.setError({ message: error.message || 'Falha ao registrar ramal' });
     });
   }
 

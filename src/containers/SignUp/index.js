@@ -9,7 +9,7 @@ import styles from './style.scss';
 class SignUp extends React.Component {
 
   componentWillMount() {
-    this.props.setAppHeight(290);
+    this.props.setAppHeight();
   }
 
   render() {
@@ -27,7 +27,10 @@ class SignUp extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({ setAppHeight });
+
+const mapDispatchToProps = dispatch => ({ 
+  setAppHeight: () => dispatch(setAppHeight(290))
+});
 
 export default connect(
   null,

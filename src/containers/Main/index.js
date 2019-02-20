@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ZAF from '../../misc/ZAFClient';
+import storage from '../../misc/ZAFClient';
 import { startCall, setIncomingActions } from '../../actions/call';
-import { changePage, setAppHeight } from '../../actions/settings';
+import { changePage } from '../../actions/settings';
+import { push, clear } from '../../actions/configuration';
 import { setTeravozWebRTCHandler } from '../../actions/teravoz';
 import { clearLogin } from '../../actions/login';
+import { getDevices } from '../../actions/devices';
+
 import Footer from '../../components/Footer';
 import IncomingRequest from '../IncomingRequest';
 import OngoingCall from '../OngoingCall';
@@ -15,20 +18,27 @@ import Login from "../Login";
 import Dialing from "../Dialing";
 import Calling from "../Calling";
 import Loading from "../Loading";
+import Configuration from '../Configuration';
 
-const mapStateToProps = ({ settings, loading, login }) => ({
+/* global chrome */
+const mapStateToProps = ({ settings, loading, login, configuration }) => ({
   settings,
   loading,
-  login
+  login,
+  configuration
 });
 
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({ changePage, setTeravozWebRTCHandler, clearLogin }, dispatch),
+  getDevices: () => dispatch(getDevices()),
+  navigation: {
+    push: (payload) => dispatch(push(payload)),
+    clearAll: () => dispatch(clear()),
+  },
   startIncomingCall: (actions, number) => {
     dispatch(startCall('incoming', 'ringing', number));
     dispatch(setIncomingActions(actions));
   },
-  setAppHeight
 });
 
 class Main extends Component {
@@ -37,10 +47,14 @@ class Main extends Component {
     const { changePage, setTeravozWebRTCHandler, teravoz, startIncomingCall } = this.props;
     setTeravozWebRTCHandler(teravoz);
 
+    // Fetching devices
+    this.props.getDevices();
+    navigator.mediaDevices.ondevicechange = this.props.getDevices;
+      
+
     teravoz.events.on('incomingCall', (theirNumber, actions) => {
       startIncomingCall(actions, theirNumber);
       changePage('incoming-request');
-      ZAF.client.invoke('popover', 'show');
     });
   }
 
@@ -53,38 +67,63 @@ class Main extends Component {
       return (<Loading />);
     }
 
-    switch(page) {
+
+    switch (page) {
       case 'loading': return (<Loading />);
       case 'ongoing-call': return (<OngoingCall />);
       case 'incoming-request': return (<IncomingRequest />);
       case 'dialing': return (<Dialing />);
       case 'calling': return (<Calling />);
+      case 'configuration': return (<Configuration />);
       case 'login':
       default: return (<Login />);
     }
   }
 
   destroy = () => {
-    ZAF.removeKey('peer').then(() => {
+    storage.removeKey('peer').then(() => {
       this.props.teravoz.events.once('unregistered', () => {
         this.props.clearLogin();
         this.props.changePage('login');
       });
-      if (this.props.settings.page == 'incoming-request') {
+      if (this.props.settings.page === 'incoming-request') {
         this.props.teravoz.hangUp();
       }
       this.props.teravoz.unregister();
     });
   }
 
+  toggleSettings = () => {
+    const { stack } = this.props.configuration;
+    const { navigation, changePage } = this.props;
+
+    if (stack.length > 0) {
+      navigation.clearAll();
+      changePage('dialing');
+    } else {
+      navigation.push({ previous: 'dialing', to: 'configuration' });
+      changePage('configuration');
+    }
+  }
+
   render() {
-    const page = this.props.settings.page === 'login' || this.props.settings.page === 'ongoing-call';
+    const { page } = this.props.settings;
+ 
+    const isConfiguration = page === 'configuration';
+    const isDialing = page === 'dialing';
+
     return (
-      <div>
-        <div className={ styles.content }>
-          { this.renderPage() }
+      <div className={styles.wrapper}>
+        <div className={styles.content}>
+          {this.renderPage()}
         </div>
-        <Footer hideLogout={ page } onClick={ this.destroy }/>
+        <Footer
+          hideLogout={!isDialing && !isConfiguration}
+          onClick={this.destroy}
+          toggle={this.toggleSettings}
+          pressed={isConfiguration}
+          configVisible={(isConfiguration || isDialing)}
+        />
       </div>
     );
   }

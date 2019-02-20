@@ -1,15 +1,9 @@
 {
   "app": {
-    "description": "Webphone Teravoz permite integra funções de telefonia com sua conta do Zendesk.",
+    "description": "The Teravoz Webphone combines telephony functions with your Zendesk account.",
     "name": "Teravoz Webphone",
-    "installation_instructions": "<h2>Instalação do Webphone Teravoz no Zendesk:</h2>\n 1) Procure pelo Webphone Teravoz no Marketplace do Zendesk e clique em `Install`. \n 2) Uma vez instalado, você deve inserir o Token de sua conta Teravoz na tela de gerenciamento do aplicativo, nas configurações do Zendesk. Caso você seja cliente e não tenha o token, entre em contato com suporte@teravoz.com.br. Caso não tenha uma conta Teravoz, entre em contato através do email comercial@teravoz.com.br \n Após ter o aplicativo instalado e configurado:\n 1) Clique no ícone do Webphone Teravoz\n 2) Realize o login com seu Ramal e Senha\n 3) Pronto! Você já pode realizar e receber ligações através do Webphone Teravoz.",
-    "long_description": "A Teravoz foi fundada com o objetivo de transformar o atendimento por voz das empresas em algo simples, porém completo; fácil para os atendentes usarem e poderoso o suficiente para permitir que desenvolvedores consigam integrar suas aplicações de forma prática e rápida.\n Acreditamos que o atendimento e relacionamento de uma empresa com seus clientes deva ser multi-canal (chat, tickets, e-mail, redes sociais, etc.), e que a comunicação por voz é, e sempre será, fundamental para este relacionamento, e por isso deve estar totalmente integrada com as ferramentas de atendimento e CRM já existentes.\n Com o Webphone Teravoz, você pode integrar as funções de telefonia diretamente para a tela do Zendesk. Realize e receba chamadas e aumente a produtividade e qualidade do atendimento com o identificador de chamadas, baseado no cadastro de usuários do Zendesk.",
-    "short_description": "Webphone Teravoz permite integra funções de telefonia com sua conta do Zendesk.",
-    "parameters": {
-      "api_key": {
-        "label": "API_KEY",
-        "helpText": "WebRTC API_KEY gerado através da API da Teravoz. Acesse a documentação https://developers.teravoz.com.br para mais informações."
-      }
-    }
+    "installation_instructions": "## Installing the Teravoz Webphone on Zendesk ## \n\n1) Search for the Teravoz Webphone at the Marketplace and click on `Install`.\n2) After installed, click on the Teravoz Webphone icon at the top bar.\n3) Sign in with your Teravoz peer login and password.\n4) You are all set! Now you are able to make and receive calls using the Teravoz Webphone.\n\n You can try out the Teravoz Webphone by [signing up for a free trial](https://teravoz.com.br).",
+    "long_description": "The Teravoz was founded aiming to simplify the organization's Customer Service, making smooth to the attendants and powerful to developers that intend to integrate the applications quickly.\n We believe that the relationship of a company with its clients should be omnichannel (chat, tickets, e-mail, social media, etc.), and the communication by voice will always be essential.\nThe Teravoz Webphone combines telephony functions straight from the Zendesk platform. Make and receive calls, and increase the quality and productivity of the Customer Service.",
+    "short_description": "The Teravoz Webphone combines telephony functions with your Zendesk account."
   }
 }

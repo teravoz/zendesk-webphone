@@ -1,25 +1,26 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import classnames from 'classnames';
 
 import styles from './style.scss';
 
 import Button from '../../components/Button';
 import AcceptIcon from '../../components/Icons/Accept';
 
-import { setAppHeight, changePage } from '../../actions/settings';
+import { setAppHeight, changePage, getTones } from '../../actions/settings';
 import { setDialingError, setNumber } from '../../actions/dialing';
 import { startCall } from '../../actions/call';
 import { fetchProfileByNumber } from '../../actions/profile';
 import Dialpad from '../../components/Dialpad';
-import getTones from '../../misc/digit-tones';
-import SettingsIcon from '../../components/Icons/Settings';
 
-const mapStateToProps = ({ call, dialing, teravoz }) => ({
+const mapStateToProps = ({ call, dialing, teravoz, devices, settings }) => ({
   call,
   dialing,
-  teravoz
+  teravoz,
+  devices, 
+  settings
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -28,34 +29,65 @@ const mapDispatchToProps = dispatch => ({
     setNumber,
     fetchProfileByNumber,
   }, dispatch),
+  getTones: (refs) => dispatch(getTones(refs)),
   startCall: (...args) => dispatch(startCall(...args)),
-  setAppHeight
+  setAppHeight: () => dispatch(setAppHeight(460))
 });
 
 class Dialing extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.audio = getTones();
-  }
+  
+  references = {};
 
   componentWillMount() {
-    this.props.setAppHeight(430);
+    this.props.setAppHeight();
+  }
+  
+  componentDidMount() {
+    this.props.getTones(this.references);
+  }
+
+  createRef(name) {
+    this.references[name] = React.createRef();
+
+    return this.references[name];
   }
 
   onValueChanged = (number, key) => {
-    if (key && key !== 'Backspace' && key !== 'Enter') {
-      if (!this.audio[key].paused) {
-        this.audio[key].pause();
-        this.audio[key].currentTime = 0;
-      }
-      this.audio[key].play().then(() => {
+    const { tones } = this.props.settings;
+    if (tones) {
+      if (key && key !== 'Backspace' && key !== 'Enter' && key !== 'Delete') {
+        if (!tones[key].paused) {
+          tones[key].pause();
+          tones[key].currentTime = 0;
+        }
+        tones[key].play().then(() => {
+          this.props.setNumber(number);
+        }).catch((error) => {
+          this.props.setNumber(number);
+        });
+      } else {
         this.props.setNumber(number);
-      });
-    } else {
-      this.props.setNumber(number);
+      }
     }
+  }
+
+  renderAudio = () => {
+    return (
+      <Fragment> 
+        <audio className={styles.dialing__hidden} ref={this.createRef('0')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('1')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('2')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('3')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('4')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('5')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('6')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('7')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('8')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('9')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('#')}></audio>
+        <audio className={styles.dialing__hidden} ref={this.createRef('*')}></audio>
+      </Fragment>
+    );
   }
 
   onCall = () => {
@@ -75,8 +107,7 @@ class Dialing extends React.Component {
   render() {
     const isDialing = this.props.call.status == 'dialing';
     return (
-      <div className={ styles.dialing }>
-        <SettingsIcon />
+      <div className={ classnames(styles.dialing, styles.mt30) }>
         <Dialpad
           onValueChanged={ this.onValueChanged }
           onEnterPressed={ this.onCall }
@@ -91,6 +122,8 @@ class Dialing extends React.Component {
             icon={ <AcceptIcon /> }
           />
         </div>
+
+        { this.renderAudio() }
       </div>
     );
   }
