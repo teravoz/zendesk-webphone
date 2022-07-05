@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: webphone
+  description: Webphone
+  annotations:
+    github.com/project-slug: rikez/zendesk-webphone
+  tags:
+    - javascript
+spec:
+  type: service
+  lifecycle: production
+  owner: dg-devex-team
